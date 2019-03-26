@@ -1,0 +1,16 @@
+/* COLOR PALETTE
+dark purple: #331940
+white: #E5E5E5
+green: #0CCA98
+light purple: #4D4365
+white: #e5e5e5 */
+
+.background {
+  background-color: #331940;
+  color: #e5e5e5;
+}
+
+.btn-green {
+  background-color: #0CCA98;
+  border-color: #0CCA98;
+}
