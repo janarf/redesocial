@@ -4,57 +4,60 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <title>GameGuidez</title>
-</head>
-
-<body>
-  <h1>TESTE</h1>
-  <div class="container">
-    <form>
-      <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
-        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-      </div>
-      <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-  </div>
-
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="shortcut icon" type="image/x-icon" href="img/cookie.ico">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM " crossorigin="anonymous "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-auth.js "></script>
-  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-firestore.js "></script>
-  <script>
-    // MUDAR ISSO AQUI!!!!!!!
-    // !!!!!!!!!!!
-    var config = {
-      apiKey: "AIzaSyCfgtjBifK9PdxZr7IWrq2jlnpb2KXqInM ",
-      authDomain: "tutorial-getninja.firebaseapp.com ",
-      databaseURL: "https://tutorial-getninja.firebaseio.com ",
-      projectId: "tutorial-getninja ",
-    };
-    firebase.initializeApp(config);
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-database.js "></script>
+  <script src="scripts/config.js "></script>
 
-    // make auth and firestore references
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+  <title>
+    Biscoiteras
+  </title>
+</head>
 
-    // update firestore settings
-    db.settings({
-      timestampsInSnapshots: true
-    });
-  </script>
-  <!-- Compiled and minified JavaScript -->
+<body class="background--purple">
+  <div class="container-fluid logo--round">
+    <div class="cookie-wrapper">
+      <figure class="container">
+        <img src="img/cookie.png" class="cookie-img">
+      </figure>
+      <div>
+        <p class="cookie-wrapper__text">Biscoiteras</p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h3>Cadastro</h3>
+    <form>
+      <div class="form-group">
+        <input type="text" class="form-control form-group--light" id="input-name" placeholder="Nome">
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-control form-group--light" id="input-email" placeholder="E-mail">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control form-group--light" id="input-password" placeholder="Senha">
+      </div>
+      <button id="sign-up-btn" class="btn btn-success btn--green">Cadastrar</button>
+    </form>
+
+    <form>
+      <h3>Entrar</h3>
+      <div class="form-group">
+        <input type="email" class="form-control form-group--light form-group__envelope--white" id="login-email" placeholder="E-mail">
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control form-group--light form-group__lock--white" id="login-password" placeholder="Senha">
+      </div>
+      <button id="sign-in-btn" class="btn btn-success btn--green">Entrar</button>
+    </form>
+  </div>
+
+
   <script src="scripts/auth.js "></script>
   <script src="scripts/index.js "></script>
 </body>
