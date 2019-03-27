@@ -13,6 +13,7 @@ white: #e5e5e5 */
 .btn--green {
   background-color: #0CCA98;
   border-color: #0CCA98;
+  width: 100%;
 }
 
 .btn--green:hover {
@@ -45,4 +46,47 @@ white: #e5e5e5 */
   box-shadow: none;
   background: transparent;
   color: #e5e5e5;
+}
+
+.logo--round {
+  background-color: #4D4365;
+  border-radius: 50%;
+  width: 50%;
+  position: relative;
+  height: 0;
+  padding-bottom: 50%;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.cookie-wrapper {
+  width: 80%;
+  margin: auto;
+  padding-top: 30px;
+}
+
+.cookie-img {
+  width: 100%
+}
+
+.cookie-wrapper__text {
+  margin-top: -10px;
+}
+
+.form-input__envelope--white,
+.form-input__envelope--white:focus {
+  background-image: url(../img/icons/emailwhite.png);
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: 100%;
+  background-size: 1rem;
+}
+
+.form-input__lock--white,
+.form-input__lock--white:focus {
+  background-image: url(../img/icons/lock_white.png);
+  display: inline-block;
+  background-repeat: no-repeat;
+  background-position: 100%;
+  background-size: 1rem;
 }
