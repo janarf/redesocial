@@ -5,12 +5,44 @@ green: #0CCA98
 light purple: #4D4365
 white: #e5e5e5 */
 
-.background-purple {
+.background--purple {
   background-color: #331940;
   color: #e5e5e5;
 }
 
-.btn-green {
+.btn--green {
   background-color: #0CCA98;
   border-color: #0CCA98;
+}
+
+.btn--green:hover {
+  background-color: #0CCA98;
+  border-color: #0CCA98;
+  filter: brightness(80%);
+}
+
+.btn--green:focus {
+  background-color: #0CCA98;
+  border-color: #0CCA98;
+}
+
+.form-input--light {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #e5e5e5;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+  color: #e5e5e5;
+}
+
+.form-input--light::placeholder {
+  color: #e5e5e5;
+}
+
+.form-input--light:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background: transparent;
+  color: #e5e5e5;
 }
