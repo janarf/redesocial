@@ -27,7 +27,7 @@ white: #e5e5e5 */
   border-color: #0CCA98;
 }
 
-.form-input--light {
+.form-group--light {
   background: transparent;
   border: none;
   border-bottom: 1px solid #e5e5e5;
@@ -37,11 +37,11 @@ white: #e5e5e5 */
   color: #e5e5e5;
 }
 
-.form-input--light::placeholder {
+.form-group--light::placeholder {
   color: #e5e5e5;
 }
 
-.form-input--light:focus {
+.form-group--light:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
   background: transparent;
@@ -73,8 +73,8 @@ white: #e5e5e5 */
   margin-top: -10px;
 }
 
-.form-input__envelope--white,
-.form-input__envelope--white:focus {
+.form-group__envelope--white,
+.form-group__envelope--white:focus {
   background-image: url(../img/icons/emailwhite.png);
   display: inline-block;
   background-repeat: no-repeat;
@@ -82,8 +82,8 @@ white: #e5e5e5 */
   background-size: 1rem;
 }
 
-.form-input__lock--white,
-.form-input__lock--white:focus {
+.form-group__lock--white,
+.form-group__lock--white:focus {
   background-image: url(../img/icons/lock_white.png);
   display: inline-block;
   background-repeat: no-repeat;
