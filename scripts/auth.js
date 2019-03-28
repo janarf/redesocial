@@ -12,8 +12,7 @@ $(document).ready(() => {
         console.log(response.user)
       })
       .catch(function(error) {
-        alert(error.message);
-        console.log(error);
+        errorMessageSignUp(error);
       })
   });
 
@@ -25,17 +24,48 @@ $(document).ready(() => {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log(response.user)
+        console.log(response.user);
       })
       .catch(function(error) {
-        alert(error.message);
-        console.log(error);
+        errorMessageSignIn(error);
       })
   });
 
   firebase.auth().signOut().then(function() {
-    // Sign-out successful.
-  }).catch(function(error) {
-    // An error happened.
-  });
+      // INSERIR AQUI REDIRECIONAMENTO LOGOUT
+    })
+    .catch(function(error) {
+      alert(`Erro desconhecido: ${error.code}: ${error.message}`);
+
+    });
+
+  function errorMessageSignUp(error) {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        alert('O endereço de email já está cadastrado.');
+        break;
+      case 'auth/invalid-email':
+        alert('Insira um endereço de email válido.');
+        break;
+      case 'auth/weak-password':
+        alert('A senha deve ter no mínimo 6 caracteres.');
+        break;
+      default:
+        alert(`Erro desconhecido: ${error.code}: ${error.message}`);
+        break;
+    }
+  };
+
+  function errorMessageSignIn(error) {
+    switch (error.code) {
+      case 'auth/wrong-password':
+        alert('Senha inválida.')
+        break;
+      case 'auth/user-not-found':
+        alert('Email não cadastrado.')
+      default:
+        alert(`Erro desconhecido: ${error.code}: ${error.message}`);
+        break;
+    }
+  }
 });

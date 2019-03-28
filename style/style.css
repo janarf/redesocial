@@ -26,8 +26,11 @@ white: #e5e5e5 */
   border-color: #0CCA98;
 }
 
-.form-group--light {
-  background: transparent;
+.form-group--light,
+.form-group--light:hover,
+.form-group--light:active,
+.form-group--light:focus {
+  background-color: rgba(0, 0, 0, 0);
   border: none;
   border-bottom: 0.01rem solid #e5e5e5;
   color: #e5e5e5;
@@ -35,6 +38,14 @@ white: #e5e5e5 */
 
 .form-group--light::placeholder {
   color: #e5e5e5;
+}
+
+.form-group--light:-webkit-autofill,
+.form-group--light:-webkit-autofill:hover,
+.form-group--light:-webkit-autofill:focus,
+.form-group--light:-webkit-autofill:active {
+  transition: background-color 5500s ease-in-out 0s;
+  -webkit-text-fill-color: #e5e5e5;
 }
 
 .form-group--light:focus {
