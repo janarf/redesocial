@@ -13,7 +13,6 @@ white: #e5e5e5 */
 .btn--green {
   background-color: #0CCA98;
   border-color: #0CCA98;
-  width: 100%;
 }
 
 .btn--green:hover {
@@ -30,10 +29,7 @@ white: #e5e5e5 */
 .form-group--light {
   background: transparent;
   border: none;
-  border-bottom: 1px solid #e5e5e5;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border-radius: 0;
+  border-bottom: 0.01rem solid #e5e5e5;
   color: #e5e5e5;
 }
 
@@ -42,41 +38,18 @@ white: #e5e5e5 */
 }
 
 .form-group--light:focus {
-  -webkit-box-shadow: none;
-  box-shadow: none;
   background: transparent;
   color: #e5e5e5;
 }
 
 .logo--round {
   background-color: #4D4365;
-  border-radius: 50%;
-  width: 50%;
-  position: relative;
   height: 0;
-  padding-bottom: 50%;
-  text-align: center;
-  margin-top: 30px;
-}
-
-.cookie-wrapper {
-  width: 80%;
-  margin: auto;
-  padding-top: 30px;
-}
-
-.cookie-img {
-  width: 100%
-}
-
-.cookie-wrapper__text {
-  margin-top: -10px;
 }
 
 .form-group__envelope--white,
 .form-group__envelope--white:focus {
   background-image: url(../img/icons/emailwhite.png);
-  display: inline-block;
   background-repeat: no-repeat;
   background-position: 100%;
   background-size: 1rem;
@@ -85,7 +58,6 @@ white: #e5e5e5 */
 .form-group__lock--white,
 .form-group__lock--white:focus {
   background-image: url(../img/icons/lock_white.png);
-  display: inline-block;
   background-repeat: no-repeat;
   background-position: 100%;
   background-size: 1rem;
