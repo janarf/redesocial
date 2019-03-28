@@ -20,14 +20,14 @@
   </title>
 </head>
 
-<body class="background--purple">
-  <div class="container-fluid logo--round">
-    <div class="cookie-wrapper">
+<body class="background--purple shadow-none">
+  <div class="container-fluid logo--round rounded-circle w-50 position-relative text-center mt-4 pb-10">
+    <div class="m-auto pt-3">
       <figure class="container">
-        <img src="img/cookie.png" class="cookie-img">
+        <img src="img/cookie.png" class="cookie-img img-fluid w-100">
       </figure>
       <div>
-        <p class="cookie-wrapper__text">Biscoiteras</p>
+        <p class="mt-n2">Biscoiteras</p>
       </div>
     </div>
   </div>
@@ -35,33 +35,31 @@
     <h3>Cadastro</h3>
     <form>
       <div class="form-group">
-        <input type="text" class="form-control form-group--light" id="input-name" placeholder="Nome">
+        <input type="text" class="form-control form-group--light rounded-0 shadow-none" id="input-name" placeholder="Nome">
       </div>
       <div class="form-group">
-        <input type="email" class="form-control form-group--light" id="input-email" placeholder="E-mail">
+        <input type="email" class="form-control form-group--light rounded-0 shadow-none" id="input-email" placeholder="E-mail">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control form-group--light" id="input-password" placeholder="Senha">
+        <input type="password" class="form-control form-group--light rounded-0 shadow-none" id="input-password" placeholder="Senha">
       </div>
-      <button id="sign-up-btn" class="btn btn-success btn--green">Cadastrar</button>
+      <button id="sign-up-btn" class="btn w-100 btn-success btn--green">Cadastrar</button>
     </form>
 
     <form>
       <h3>Entrar</h3>
       <div class="form-group">
-        <input type="email" class="form-control form-group--light form-group__envelope--white" id="login-email" placeholder="E-mail">
+        <input type="email" class="form-control form-group--light rounded-0 shadow-none form-group__envelope--white d-inline-block" id="login-email" placeholder="E-mail">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control form-group--light form-group__lock--white" id="login-password" placeholder="Senha">
+        <input type="password" class="form-control form-group--light rounded-0 shadow-none form-group__lock--white d-inline-block" id="login-password" placeholder="Senha">
       </div>
-      <button id="sign-in-btn" class="btn btn-success btn--green">Entrar</button>
+      <button id="sign-in-btn" class="btn w-100 btn-success btn--green">Entrar</button>
     </form>
-    <button id="sign-in-google-btn" class="btn btn-light ">Entrar com o Google</button>
-  </div>
-  <div>
+    <button id="sign-in-google-btn" class="btn btn-light mb-2">Entrar com o Google</button>
     <button id="sign-in-fb-btn" class="btn btn-light">Entrar com Facebook</button>
   </div>
-
+  
   <script src="scripts/auth.js "></script>
   <script src="scripts/googleauth.js "></script>
 
