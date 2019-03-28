@@ -1,4 +1,4 @@
-var config = {
+const config = {
   apiKey: "AIzaSyD7Bdj2Jbfym1PvVtfqtEEp5iAEg6P-hA0",
   authDomain: "redesocial-18fde.firebaseapp.com",
   databaseURL: "https://redesocial-18fde.firebaseio.com",
