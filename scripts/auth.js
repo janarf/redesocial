@@ -12,6 +12,7 @@ $(document).ready(() => {
         console.log(response.user)
       })
       .catch(function(error) {
+        alert(error.message);
         console.log(error);
       })
   });
@@ -27,6 +28,7 @@ $(document).ready(() => {
         console.log(response.user)
       })
       .catch(function(error) {
+        alert(error.message);
         console.log(error);
       })
   });
