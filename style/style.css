@@ -48,6 +48,10 @@ white: #e5e5e5 */
   -webkit-text-fill-color: #e5e5e5;
 }
 
+.cookie {
+  width: 5%;
+}
+
 .form-group--light:focus {
   background: transparent;
   color: #e5e5e5;
