@@ -9,7 +9,7 @@ $(document).ready(() => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((response) => {
         response.user.updateProfile({ displayName: name });
-        console.log(response.user)
+        window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
       .catch(function(error) {
         errorMessageSignUp(error);
@@ -24,7 +24,7 @@ $(document).ready(() => {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((response) => {
-        console.log(response.user);
+        window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
       .catch(function(error) {
         errorMessageSignIn(error);
