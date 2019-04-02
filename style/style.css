@@ -10,6 +10,12 @@ white: #e5e5e5 */
   color: #e5e5e5;
 }
 
+.logo--round {
+  background-color: #4D4365;
+  height: 0;
+  padding-bottom: 50%;
+}
+
 .btn--green {
   background-color: #0CCA98;
   border-color: #0CCA98;
@@ -55,11 +61,6 @@ white: #e5e5e5 */
 .form-group--light:focus {
   background: transparent;
   color: #e5e5e5;
-}
-
-.logo--round {
-  background-color: #4D4365;
-  height: 0;
 }
 
 .form-group__envelope--white,
