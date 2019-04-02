@@ -8,7 +8,7 @@ $(document).ready(function() {
       let childKey = childSnapshot.key;
       let childData = childSnapshot.val();
       if (childData.post) {
-        $(".post-list").prepend(`<li>${childData.post}</li>`)
+        $(".post-list").prepend(templateStringPost(childData.post))
       };
 
     });

@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  const database = firebase.database();
 
   $('#sign-up-btn').on('click', (e) => {
     e.preventDefault();
@@ -9,6 +10,7 @@ $(document).ready(() => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((response) => {
         response.user.updateProfile({ displayName: name });
+        setUser(response, database);
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
       .catch(function(error) {
@@ -21,7 +23,6 @@ $(document).ready(() => {
     e.preventDefault();
     let email = $('#login-email').val();
     let password = $('#login-password').val();
-
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then((response) => {
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
