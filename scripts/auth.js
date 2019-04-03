@@ -10,7 +10,9 @@ $(document).ready(() => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((response) => {
         response.user.updateProfile({ displayName: name });
-        setUser(response, database);
+        setUser(response, database, name);
+
+
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
       .catch(function(error) {
@@ -37,7 +39,6 @@ $(document).ready(() => {
     })
     .catch(function(error) {
       alert(`Erro desconhecido: ${error.code}: ${error.message}`);
-
     });
 
   function errorMessageSignUp(error) {
