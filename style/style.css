@@ -10,6 +10,10 @@ white: #e5e5e5 */
   color: #e5e5e5;
 }
 
+.background--light-green {
+  background-color: rgb(12,202,152,0.43);
+}
+
 .logo--round {
   background-color: #4D4365;
   height: 0;
@@ -30,6 +34,11 @@ white: #e5e5e5 */
 .btn--green:focus {
   background-color: #0CCA98;
   border-color: #0CCA98;
+}
+
+hr {
+  width: 85%;
+  align: center;
 }
 
 .form-group--light,
