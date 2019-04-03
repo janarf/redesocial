@@ -4,5 +4,5 @@ function post(text, database, USER_ID) {
     likeCount: 0,
     user: USER_ID
   })
-  console.log()
+
 }
