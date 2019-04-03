@@ -3,12 +3,12 @@ const database = firebase.database();
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function() {
-  database.ref("posts/" + USER_ID).once('value').then(function(snapshot) {
+  database.ref("posts/").once('value').then(function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
       let childKey = childSnapshot.key;
       let childData = childSnapshot.val();
       if (childData.post) {
-        $(".post-list").prepend(`<li>${childData.post}</li>`)
+        $(".post-list").prepend(templateStringPost(childData.post))
       };
 
     });
