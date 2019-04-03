@@ -5,8 +5,11 @@ $(document).ready(function() {
     snapshot.forEach(function(childSnapshot) {
       let childKey = childSnapshot.key;
       let childData = childSnapshot.val();
-      if (childData.post) {
-        $(".post-list").prepend(templateStringPost(childData.post))
+      if (childData.post && childData.user === USER_ID) {
+        database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
+          const username = snapshot.val().username;
+          $(".post-list").prepend(templateStringPost(childData.post, username))
+        });
       };
     });
   });
@@ -20,12 +23,24 @@ $(document).ready(function() {
       });
     } else {
       post(text, database, USER_ID);
-      $(".post-list").prepend(templateStringPost(text));
+      database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
+        const username = snapshot.val().username;
+        $(".post-list").prepend(templateStringPost(text, username))
+      })
       $(".post-input").val("");
     };
   });
 });
 
-function templateStringPost(text) {
-  return `<div><p>${text}</p></div>`
+function userName(userId) {
+  return database.ref("users/" + userId).once('value').then(function(snapshot) {
+    return snapshot.val().username
+  });
+}
+
+function templateStringPost(text, username) {
+  let templateString = `<div><strong>${username}</strong><div><p>${text}</p></div></div>`
+
+  return templateString
+
 }
