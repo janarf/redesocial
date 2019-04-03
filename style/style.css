@@ -38,7 +38,19 @@ white: #e5e5e5 */
 
 hr {
   width: 85%;
-  align: center;
+  align-content: center;
+}
+
+form {
+  margin: 5%;
+}
+
+.post-list p {
+  border: 0;
+  padding: 1%;
+  border-radius: 1%;
+  background-color: white;
+  margin: 5%;
 }
 
 .form-group--light,
