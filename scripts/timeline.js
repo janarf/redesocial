@@ -4,9 +4,9 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 $(document).ready(function() {
   database.ref("posts/" + USER_ID).once('value').then(function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
-      let childKey =  childSnapshot.Key;
+      let childKey = childSnapshot.Key;
       let childData = childSnapshot.val();
-      if (childData.post && childData.user === USER_ID) {
+      if (childData.post) {
         database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
           const username = snapshot.val().username;
           $(".post-list").prepend(templateStringPost(childData.post, username))
@@ -33,18 +33,10 @@ $(document).ready(function() {
   });
 });
 
-function templateStringPost(text) {
+function templateStringPost(text, name) {
   return `<div>
+  <p><strong>${name}</strong></p>
   <p>${text}</p>
   <button type="button"> Excluir </button>
   </div>`
 }
-
-
-function userName(userId) {
-  return database.ref("users/" + userId).once('value').then(function(snapshot) {
-    return snapshot.val().username
-  });
-}
-
-
