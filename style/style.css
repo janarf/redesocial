@@ -11,7 +11,7 @@ white: #e5e5e5 */
 }
 
 .background--light-green {
-  background-color: rgb(12,202,152,0.43);
+  background-color: rgb(12, 202, 152, 0.43);
 }
 
 .logo--round {
@@ -45,7 +45,7 @@ form {
   margin: 5%;
 }
 
-.post-list p {
+.post-list div {
   border: 0;
   padding: 1%;
   border-radius: 1%;
