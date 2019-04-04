@@ -1,8 +1,8 @@
 function post(text, database, USER_ID) {
-  database.ref('posts/').push({
+  database.ref('posts/' + USER_ID).push({
     post: text,
     likeCount: 0,
-    user: USER_ID
+    privado: false 
   })
 
 }

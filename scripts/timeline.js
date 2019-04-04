@@ -1,9 +1,10 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
+
 $(document).ready(function() {
-  database.ref("posts/").once('value').then(function(snapshot) {
+  database.ref("posts/" + USER_ID).once('value').then(function(snapshot) {
     snapshot.forEach(function(childSnapshot) {
-      let childKey = childSnapshot.key;
+      let childKey =  childSnapshot.Key;
       let childData = childSnapshot.val();
       if (childData.post && childData.user === USER_ID) {
         database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
@@ -32,15 +33,18 @@ $(document).ready(function() {
   });
 });
 
+function templateStringPost(text) {
+  return `<div>
+  <p>${text}</p>
+  <button type="button"> Excluir </button>
+  </div>`
+}
+
+
 function userName(userId) {
   return database.ref("users/" + userId).once('value').then(function(snapshot) {
     return snapshot.val().username
   });
 }
 
-function templateStringPost(text, username) {
-  let templateString = `<div><strong>${username}</strong><div><p>${text}</p></div></div>`
 
-  return templateString
-
-}
