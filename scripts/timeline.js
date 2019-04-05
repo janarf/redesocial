@@ -2,22 +2,32 @@
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function() {
-  database.ref("posts/" + USER_ID).on('value', function(snapshot) {
-    const posts = snapshot.val()
+  loadTimeline();
+  $('.select-public-private-timeline').change(loadTimeline)
 
-    $(".post-list").html("")
+  function loadTimeline() {
+    database.ref("posts/" + USER_ID)
+      .on('value', () => {
+        setPublicOrPrivateTimeline($('.select-public-private-timeline'))
+          .once('value')
+          .then((snapshot) => {
+            const posts = snapshot.val()
+            $(".post-list").html("")
 
-    if (!posts) return;
+            if (!posts) return;
 
-    Object.keys(posts).forEach(key => {
-      database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
-        const name = snapshot.val().username;
-        $(".post-list").append(templateStringPost(posts[key].post, name, key))
-        setKeyToButton(key)
+            Object.keys(posts).forEach(key => {
+              database.ref("users/" + USER_ID)
+                .once('value')
+                .then(function(snapshot) {
+                  const name = snapshot.val().username;
+                  $(".post-list").append(templateStringPost(posts[key].post, name, key))
+                  setKeyToButton(key)
+                })
+            })
+          })
       })
-    })
-  })
-
+  }
 
   $(".post-text-btn").click(function(event) {
     event.preventDefault();
@@ -27,7 +37,7 @@ $(document).ready(function() {
         $(this).prop("disabled", true);
       });
     } else {
-      post(text, database, USER_ID, setPublicOrPrivatePost());
+      post(text, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")));
 
       $(".post-input").val("");
       $(".post-list").html("")
@@ -51,11 +61,18 @@ function setKeyToButton(key) {
   })
 }
 
-function setPublicOrPrivatePost() {
-  if ($(".select-public-private").val() === 'public') {
-    console.log('publico')
+function setPublicOrPrivatePost(event) {
+  if (event.val() === 'public') {
     return false
   } else {
     return true
+  }
+}
+
+function setPublicOrPrivateTimeline(event) {
+  if (event.val() === 'public') {
+    return database.ref("posts/" + USER_ID).orderByChild("privado").equalTo(false)
+  } else {
+    return database.ref("posts/" + USER_ID)
   }
 }
