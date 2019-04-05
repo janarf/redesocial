@@ -1,8 +1,9 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
+
 $(document).ready(function () {
-  database.ref("posts/" + USER_ID).on('value', function (snapshot) {
+  database.ref("posts/" + USER_ID).on('value', function(snapshot) {
     const posts = snapshot.val()
     $(".post-list").html("")
 
