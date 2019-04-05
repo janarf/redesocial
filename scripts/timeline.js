@@ -4,6 +4,7 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 $(document).ready(function() {
   database.ref("posts/" + USER_ID).on('value', function(snapshot) {
     const posts = snapshot.val()
+
     $(".post-list").html("")
 
     if (!posts) return;
@@ -26,7 +27,8 @@ $(document).ready(function() {
         $(this).prop("disabled", true);
       });
     } else {
-      post(text, database, USER_ID);
+      post(text, database, USER_ID, setPublicOrPrivatePost());
+
       $(".post-input").val("");
       $(".post-list").html("")
 
@@ -49,9 +51,11 @@ function setKeyToButton(key) {
   })
 }
 
-// function setPublicOrPrivatePost() {
-//   if ($(".select-public-private").val() === 'private') {
-//     return false
-//   } else {
-//     return true
-//   }
+function setPublicOrPrivatePost() {
+  if ($(".select-public-private").val() === 'public') {
+    console.log('publico')
+    return false
+  } else {
+    return true
+  }
+}
