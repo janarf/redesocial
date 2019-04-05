@@ -23,7 +23,7 @@ $(document).ready(function() {
         $(this).prop("disabled", true);
       });
     } else {
-      post(text, database, USER_ID);
+      post(text, database, USER_ID, setPublicOrPrivatePost());
       database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
         const username = snapshot.val().username;
         $(".post-list").prepend(templateStringPost(text, username))
@@ -34,9 +34,19 @@ $(document).ready(function() {
 });
 
 function templateStringPost(text, name) {
-  return `<div>
+  let template = `<div>
   <p><strong>${name}</strong></p>
   <p>${text}</p>
-  <button type="button"> Excluir </button>
+  <button class = "olar" type="button"> Excluir </button>
   </div>`
+  $(".olar").click((e) => { console.log(e) })
+  return template
+}
+
+function setPublicOrPrivatePost() {
+  if ($(".select-public-private").val() === 'private') {
+    return false
+  } else {
+    return true
+  }
 }
