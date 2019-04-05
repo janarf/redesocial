@@ -65,6 +65,7 @@ $(document).ready(() => {
         break;
       case 'auth/user-not-found':
         alert('Email não cadastrado.')
+        break;
       default:
         alert(`Erro desconhecido: ${error.code}: ${error.message}`);
         break;

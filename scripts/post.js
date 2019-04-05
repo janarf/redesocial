@@ -5,4 +5,5 @@ function post(text, database, USER_ID, private = false) {
     privado: private
   })
 
+
 }
