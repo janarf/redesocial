@@ -2,18 +2,21 @@
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function() {
-  database.ref("posts/" + USER_ID).once('value').then(function(snapshot) {
-    snapshot.forEach(function(childSnapshot) {
-      let childKey = childSnapshot.Key;
-      let childData = childSnapshot.val();
-      if (childData.post) {
-        database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
-          const username = snapshot.val().username;
-          $(".post-list").prepend(templateStringPost(childData.post, username))
-        });
-      };
-    });
-  });
+  database.ref("posts/" + USER_ID).on('value', function(snapshot) {
+    const posts = snapshot.val()
+    $(".post-list").html("")
+
+    if (!posts) return;
+
+    Object.keys(posts).forEach(key => {
+      database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
+        const name = snapshot.val().username;
+        $(".post-list").append(templateStringPost(posts[key].post, name, key))
+        setKeyToButton(key)
+      })
+    })
+  })
+
 
   $(".post-text-btn").click(function(event) {
     event.preventDefault();
@@ -24,19 +27,31 @@ $(document).ready(function() {
       });
     } else {
       post(text, database, USER_ID);
-      database.ref("users/" + USER_ID).once('value').then(function(snapshot) {
-        const username = snapshot.val().username;
-        $(".post-list").prepend(templateStringPost(text, username))
-      })
       $(".post-input").val("");
+      $(".post-list").html("")
+
     };
   });
 });
 
-function templateStringPost(text, name) {
+function templateStringPost(text, name, key) {
   return `<div>
   <p><strong>${name}</strong></p>
   <p>${text}</p>
-  <button type="button"> Excluir </button>
+  <button data-key="${key}" type="button" class="delete"> Excluir </button>
   </div>`
 }
+
+function setKeyToButton(key) {
+  $(`button[data-key=${key}]`).click(function() {
+    $(this).parent().remove();
+    database.ref(`posts/${USER_ID}/${key}`).remove();
+  })
+}
+
+// function setPublicOrPrivatePost() {
+//   if ($(".select-public-private").val() === 'private') {
+//     return false
+//   } else {
+//     return true
+//   }
