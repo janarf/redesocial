@@ -4,7 +4,7 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 $(document).ready(function() {
   loadTimeline();
   $('.select-public-private-timeline').change(() => {
-   $(".post-list").html("")
+    $(".post-list").html("")
     loadTimeline();
   })
 
@@ -25,19 +25,20 @@ $(document).ready(function() {
             .then(function(snapshot) {
               const name = snapshot.val().username;
 
-              $(".post-list").append(templateStringPost(posts[key].post, name, key,posts[key].likeCount))
+              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
               setKeyToButton(key)
+              setKeyToLike(key)
             })
         })
       })
 
   }
 
-  $(".post-text-btn").click(function (event) {
+  $(".post-text-btn").click(function(event) {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
-      $(".post-text-btn").on(function () {
+      $(".post-text-btn").on(function() {
         $(this).prop("disabled", true);
       });
     } else {
@@ -61,17 +62,17 @@ function post(text, database, USER_ID, private = false) {
 }
 
 
-function templateStringPost(text, name, key, likeCount=0) {
+function templateStringPost(text, name, key, likeCount = 0) {
   return `<div>
   <p><strong>${name}</strong></p>
   <p>${text}</p>
-  <button type="button" data-like=${key} value=${likeCount}><img src="../img/cookie.ico">&nbsp;&nbsp<span>${likeCount}</span></button>&nbsp;&nbsp  
+  <button type="button" data-like=${key} value=${likeCount}><img src="../img/cookie.ico">&nbsp;&nbsp<span>${likeCount}</span></button>&nbsp;&nbsp
   <button data-key="${key}" type="button" class="delete"> Excluir </button>
   </div>`
 }
 
 function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function () {
+  $(`button[data-key=${key}]`).click(function() {
     $(this).parent().remove();
     $(".post-input").val("");
 
@@ -99,11 +100,10 @@ function setPublicOrPrivateTimeline(event) {
 }
 
 function setKeyToLike(key) {
-  $(`button[data-like=${key}]`).click(function () {
+  $(`button[data-like=${key}]`).click(function() {
     event.preventDefault();
     let likeNum = parseInt($(`button[data-like=${key}]`).val()) + 1;
-    database.ref(`posts/${USER_ID}/${key}`).update({likeCount: likeNum});
+    $(`button[data-like=${key}] > span`).html(likeNum);
+    database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
   });
 }
-
-
