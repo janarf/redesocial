@@ -10,7 +10,7 @@ $(document).ready(() => {
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((response) => {
         response.user.updateProfile({ displayName: name });
-        setUser(response, database, name);
+        setUser(response, database, name, email);
 
 
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
