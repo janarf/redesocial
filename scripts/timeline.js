@@ -1,24 +1,37 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
-
-$(document).ready(function () {
-  database.ref("posts/" + USER_ID).on('value', function(snapshot) {
-    const posts = snapshot.val()
-    $(".post-list").html("")
-
-    if (!posts) return;
-
-    Object.keys(posts).forEach(key => {
-      database.ref("users/" + USER_ID).once('value').then(function (snapshot) {
-        const name = snapshot.val().username;
-        $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
-        setKeyToButton(key)
-        setKeyToLike(key);
-      })
-    })
+$(document).ready(function() {
+  loadTimeline();
+  $('.select-public-private-timeline').change(() => {
+   $(".post-list").html("")
+    loadTimeline();
   })
 
+
+
+
+  function loadTimeline() {
+
+    setPublicOrPrivateTimeline($('.select-public-private-timeline'))
+      .once('value')
+      .then((snapshot) => {
+        const posts = snapshot.val()
+        if (!posts) return;
+        $(".post-list").html("")
+        Object.keys(posts).forEach(key => {
+          database.ref("users/" + USER_ID)
+            .once('value')
+            .then(function(snapshot) {
+              const name = snapshot.val().username;
+
+              $(".post-list").append(templateStringPost(posts[key].post, name, key,posts[key].likeCount))
+              setKeyToButton(key)
+            })
+        })
+      })
+
+  }
 
   $(".post-text-btn").click(function (event) {
     event.preventDefault();
@@ -28,15 +41,27 @@ $(document).ready(function () {
         $(this).prop("disabled", true);
       });
     } else {
-      post(text, database, USER_ID);
-      $(".post-input").val("");
       $(".post-list").html("")
 
+      post(text, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")));
+      loadTimeline()
+      $(".post-input").val('');
+      $(".select-public-private").val("public")
     };
   });
 });
 
-function templateStringPost(text, name, key, likeCount) {
+
+function post(text, database, USER_ID, private = false) {
+  database.ref('posts/' + USER_ID).push({
+    post: text,
+    likeCount: 0,
+    privado: private
+  })
+}
+
+
+function templateStringPost(text, name, key, likeCount=0) {
   return `<div>
   <p><strong>${name}</strong></p>
   <p>${text}</p>
@@ -48,8 +73,29 @@ function templateStringPost(text, name, key, likeCount) {
 function setKeyToButton(key) {
   $(`button[data-key=${key}]`).click(function () {
     $(this).parent().remove();
+    $(".post-input").val("");
+
     database.ref(`posts/${USER_ID}/${key}`).remove();
   })
+}
+
+
+function setPublicOrPrivatePost(event) {
+  if (event.val() === 'public') {
+    return false
+  } else {
+    return true
+  }
+}
+
+function setPublicOrPrivateTimeline(event) {
+  if (event.val() === 'public') {
+    $(".post-list").html("")
+    return database.ref("posts/" + USER_ID).orderByChild("privado").equalTo(false)
+  } else {
+    $(".post-list").html("")
+    return database.ref("posts/" + USER_ID)
+  }
 }
 
 function setKeyToLike(key) {
@@ -60,9 +106,4 @@ function setKeyToLike(key) {
   });
 }
 
-// function setPublicOrPrivatePost() {
-//   if ($(".select-public-private").val() === 'private') {
-//     return false
-//   } else {
-//     return true
-//   }
+
