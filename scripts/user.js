@@ -1,6 +1,7 @@
-  function setUser(response, database, name) {
+  function setUser(response, database, name, email) {
     database.ref('users/' + response.user.uid).set({
-      username: name
+      username: name,
+      email: email
     })
 
   }
