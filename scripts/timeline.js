@@ -1,15 +1,12 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
-$(document).ready(function() {
+$(document).ready(function () {
   loadTimeline();
   $('.select-public-private-timeline').change(() => {
     $(".post-list").html("")
     loadTimeline();
   })
-
-
-
 
   function loadTimeline() {
 
@@ -22,7 +19,7 @@ $(document).ready(function() {
         Object.keys(posts).forEach(key => {
           database.ref("users/" + USER_ID)
             .once('value')
-            .then(function(snapshot) {
+            .then(function (snapshot) {
               const name = snapshot.val().username;
 
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
@@ -34,11 +31,11 @@ $(document).ready(function() {
 
   }
 
-  $(".post-text-btn").click(function(event) {
+  $(".post-text-btn").click(function (event) {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
-      $(".post-text-btn").on(function() {
+      $(".post-text-btn").on(function () {
         $(this).prop("disabled", true);
       });
     } else {
@@ -72,7 +69,7 @@ function templateStringPost(text, name, key, likeCount = 0) {
 }
 
 function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function() {
+  $(`button[data-key=${key}]`).click(function () {
     $(this).parent().remove();
     $(".post-input").val("");
 
@@ -100,10 +97,14 @@ function setPublicOrPrivateTimeline(event) {
 }
 
 function setKeyToLike(key) {
-  $(`button[data-like=${key}]`).click(function() {
+  $(`button[data-like=${key}]`).click(function () {
     event.preventDefault();
     let likeNum = parseInt($(`button[data-like=${key}]`).val()) + 1;
     $(`button[data-like=${key}] > span`).html(likeNum);
     database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
   });
 }
+
+document.getElementById("friend-link").addEventListener("click", function(){
+  window.location = `../pages/friends.html?id=${USER_ID}`;
+})
