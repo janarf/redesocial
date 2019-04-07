@@ -38,7 +38,7 @@
                     <img src="../img/cookie.png" class="w-100 p-3" alt="">
                 </div>
                 <a class="navbar-brand" href="#" id="timeline-link">
-                        Biscoiteras
+                    Biscoiteras
                 </a>
             </figure>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -61,15 +61,19 @@
         </div>
     </nav>
     <main>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row">
-                <h1 class="col-md-2">Amigas</h1>
-                <ul id="friend-list"></ul>
-                <h1 class="col-md-2">Sugestões</h1>
-                <ul id="suggestion-list"></ul>
-                <br>
-                <input type="text" placeholder="Ache uma amiga" class="col-md-2" id="friend-search">
-                <button class="btn btn-light" id="friend-search-btn">Buscar</button>
+                <div class="col-2">
+                    <h1>Amigas</h1>
+                    <ul id="friend-list" class="list-group list-unstyled"></ul>
+                </div>
+                <div class="col-2">
+                    <h1>Sugestões</h1>
+                    <input type="text" placeholder="Ache uma amiga" class="col-md-2" id="friend-search">
+                    <button class="btn btn-light" id="friend-search-btn">Buscar</button>
+                    <ul id="suggestion-list" class="list-group list-unstyled"></ul>
+                </div>
+
             </div>
 
         </div>
