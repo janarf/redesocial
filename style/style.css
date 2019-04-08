@@ -47,10 +47,7 @@ form {
 
 .post-list div {
   border: 0;
-  padding: 1%;
   border-radius: 1%;
-  background-color: white;
-  margin: 5%;
 }
 
 .form-group--light,
@@ -98,4 +95,26 @@ form {
   background-repeat: no-repeat;
   background-position: 100%;
   background-size: 1rem;
+}
+
+.text--gray {
+  color: #595057;
+  font-size: 0.8rem
+}
+
+.background--gray {
+  background-color: #595057;
+}
+
+.profile-picture {
+  margin: 10px;
+}
+
+.select--no-focus,
+.select--no-focus:focus,
+.select--no-focus:active,
+select,
+select:active,
+select:focus {
+  outline: 0 !important;
 }
