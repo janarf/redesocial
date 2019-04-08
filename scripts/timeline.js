@@ -61,7 +61,7 @@ function post(text, database, USER_ID, private = false) {
 
 
 function templateStringPost(text, name, key, likeCount = 0) {
-  return `<div>
+  return `<div class= "mt-0">
   <p><strong>${name}</strong></p>
   <p>${text}</p>
   <button type="button" data-like=${key} value=${likeCount}><img src="../img/cookie.ico">&nbsp;&nbsp<span>${likeCount}</span></button>&nbsp;&nbsp

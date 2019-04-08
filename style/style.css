@@ -99,3 +99,17 @@ form {
   background-position: 100%;
   background-size: 1rem;
 }
+
+.text--gray {
+  color: #595057;
+  font-size: 0.8rem
+}
+
+.select--no-focus,
+.select--no-focus:focus,
+.select--no-focus:active,
+select,
+select:active,
+select:focus {
+  outline: 0 !important;
+}
