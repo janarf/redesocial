@@ -108,6 +108,8 @@ form {
 
 .profile-picture {
   margin: 10px;
+  width: 46px;
+  height: 46px;
 }
 
 .select--no-focus,
