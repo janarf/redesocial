@@ -110,6 +110,8 @@ form {
   margin: 10px;
   width: 46px;
   height: 46px;
+  float: right;
+  ;
 }
 
 .select--no-focus,

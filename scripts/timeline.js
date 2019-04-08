@@ -71,12 +71,12 @@ function templateStringPost(text, name, key, likeCount = 0) {
 <div data-div=${key} class="container mt-4 p-4 bg-light">
   <div class="container">
     <div class="row">
-      <div class="col-2 m-0 p-0">
+      <div class="col-2 col-md-1 m-0 p-0">
           <figure class="background--gray rounded-circle profile-picture">
             <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
           </figure>
         </div>
-        <div class="col-9 float-right">
+        <div class="col-9 col-md-10 float-right">
         <p><strong>${name}</strong></p>
         <p>${text}</p>
         </div>
@@ -95,7 +95,7 @@ function setKeyToButton(key) {
   $(`[data-div=${key}]`).click(function() {
     $(this).remove();
     $(".post-input").val("Pegue seu biscoito");
-    postInput()
+    postInput();
     database.ref(`posts/${USER_ID}/${key}`).remove();
   })
 }
