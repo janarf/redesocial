@@ -23,8 +23,12 @@ function suggestion(name, key) {
             if (key !== USER_ID) {
                 $("#suggestion-list").append(`  
                 <li>
-                    <span>${name}</span>
-                    <button data-friend-id=${key}>Seguir</button>
+                    <div class="border border-light bg-light align-baseline">
+                        <span>${name}</span>
+                        <div class="text-right">
+                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}>Seguir</button>
+                        </div>
+                    </div>
                 </li>
                 `)
             }
@@ -45,8 +49,12 @@ function friendList(name, key) {
             if (key !== USER_ID) {
                 $("#friend-list").append(`  
                 <li>
-                    <span>${name}</span>
-                    <button data-friend-id=${key}>Remover</button>
+                    <div class="border border-light bg-light">
+                        <span>${name}</span>
+                        <div class="text-right">
+                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}>Remover</button>
+                        </div>
+                    </div>
                 </li>
                 `)
             }
@@ -58,11 +66,13 @@ function friendList(name, key) {
                             const friendKey = childSnapshot.key;
                             if (key == temp[friendKey].friendId) {
                                 database.ref(`friendship/${USER_ID}/${friendKey}`).remove();
+                                suggestion(name, key);
+
                             }
                         });
                     })
                 $(this).parent().remove();
-                suggestion(name, key);
+                // suggestion(name, key);
             })
         }
     });
@@ -80,8 +90,12 @@ function search(email) {
                     notFound = false;
                     $("#search").append(`  
                 <li>
-                    <span>${temp[friendKey].username}</span>
-                    <button data-friend-id=${friendKey}>Seguir</button>
+                    <div class="border border-light bg-light">
+                        <span>${temp[friendKey].username}</span>
+                        <div class="text-right">
+                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}>Remover</button>
+                        </div>
+                    </div>    
                 </li>
                 `)
                 }
