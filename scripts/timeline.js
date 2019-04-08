@@ -68,7 +68,7 @@ function post(text, database, USER_ID, private = false) {
 
 function templateStringPost(text, name, key, likeCount = 0) {
   return `
-<div class="container mt-4 p-4 bg-light">
+<div data-div=${key} class="container mt-4 p-4 bg-light">
   <div class="container">
     <div class="row">
       <div class="col-2 m-0 p-0">
@@ -92,8 +92,8 @@ function templateStringPost(text, name, key, likeCount = 0) {
 }
 
 function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function() {
-    $(this).parent().remove();
+  $(`[data-div=${key}]`).click(function() {
+    $(this).remove();
     $(".post-input").val("Pegue seu biscoito");
     postInput()
     database.ref(`posts/${USER_ID}/${key}`).remove();
