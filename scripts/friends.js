@@ -23,11 +23,20 @@ function suggestion(name, key) {
             if (key !== USER_ID) {
                 $("#suggestion-list").append(`  
                 <li>
-                    <div class="border border-light bg-light align-baseline">
-                        <span>${name}</span>
-                        <div class="text-right">
-                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}>Seguir</button>
-                        </div>
+                    <div class="container border border-light bg-light">
+                        <div class="row align-items-center justify-content-around">
+                            <div class="col-3 margin-0">
+                                <figure class="background--gray rounded-circle profile-picture">
+                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="col-3">
+                                <span>${name}</span>
+                            </div>    
+                            <div class="col-3">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img src="../img/cookie.ico"></button>
+                            </div>
+                        </div>    
                     </div>
                 </li>
                 `)
@@ -49,11 +58,20 @@ function friendList(name, key) {
             if (key !== USER_ID) {
                 $("#friend-list").append(`  
                 <li>
-                    <div class="border border-light bg-light">
-                        <span>${name}</span>
-                        <div class="text-right">
-                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}>Remover</button>
-                        </div>
+                    <div class="container border border-light bg-light">
+                        <div class="row align-items-center justify-content-around">
+                            <div class="col-3 margin-0">
+                                <figure class="background--gray rounded-circle profile-picture">
+                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="col-3">
+                                <span>${name}</span>
+                            </div>    
+                            <div class="col-3">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img src="../img/cookie.ico"></button>
+                            </div>
+                        </div>    
                     </div>
                 </li>
                 `)
@@ -90,11 +108,20 @@ function search(email) {
                     notFound = false;
                     $("#search").append(`  
                 <li>
-                    <div class="border border-light bg-light">
-                        <span>${temp[friendKey].username}</span>
-                        <div class="text-right">
-                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}>Remover</button>
-                        </div>
+                    <div class="container border border-light bg-light">
+                        <div class="row align-items-center justify-content-around">
+                            <div class="col-3 margin-0">
+                                <figure class="background--gray rounded-circle profile-picture">
+                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                </figure>
+                            </div>
+                            <div class="col-3">
+                                <span>${temp[friendKey].username}</span>
+                            </div>
+                            <div class="col-3 text-right">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img src="../img/cookie.ico"></button>
+                            </div>
+                        </div>    
                     </div>    
                 </li>
                 `)

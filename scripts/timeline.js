@@ -83,7 +83,6 @@ function templateStringPost(text, name, key, likeCount = 0) {
       </div>
     </div>
     <hr>
-
 <div>
   <button type="button" data-like=${key} value=${likeCount}><img src="../img/cookie.ico">&nbsp;&nbsp<span>${likeCount}</span></button>&nbsp;&nbsp
   <button data-key="${key}" type="button" class="delete"> Excluir </button>
