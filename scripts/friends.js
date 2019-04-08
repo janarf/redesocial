@@ -25,16 +25,16 @@ function suggestion(name, key) {
                 <li>
                     <div class="container border border-light bg-light">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-3 margin-0">
+                            <div class="col-2 p-2">
                                 <figure class="background--gray rounded-circle profile-picture">
                                     <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
                                 </figure>
                             </div>
-                            <div class="col-3">
-                                <span>${name}</span>
+                            <div class="col-6 ml-n5">
+                                <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
-                            <div class="col-3">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img src="../img/cookie.ico"></button>
+                            <div class="col-3 mr-n4">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
                             </div>
                         </div>    
                     </div>
@@ -45,8 +45,8 @@ function suggestion(name, key) {
                 database.ref("friendship/" + USER_ID).push({
                     friendId: key
                 })
-                friendList(name, key);
-                $(this).parent().remove();
+                $(this).remove();
+                friendList(name, key);                
             })
         }
     });
@@ -60,16 +60,16 @@ function friendList(name, key) {
                 <li>
                     <div class="container border border-light bg-light">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-3 margin-0">
+                            <div class="col-2 p-2">
                                 <figure class="background--gray rounded-circle profile-picture">
                                     <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
                                 </figure>
                             </div>
-                            <div class="col-3">
-                                <span>${name}</span>
+                            <div class="col-6 ml-n5">
+                                <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
-                            <div class="col-3">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img src="../img/cookie.ico"></button>
+                            <div class="col-3 mr-n4">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn-icon" src="../img/icons/deletefriend.png"></button>
                             </div>
                         </div>    
                     </div>
@@ -85,12 +85,10 @@ function friendList(name, key) {
                             if (key == temp[friendKey].friendId) {
                                 database.ref(`friendship/${USER_ID}/${friendKey}`).remove();
                                 suggestion(name, key);
-
                             }
                         });
                     })
-                $(this).parent().remove();
-                // suggestion(name, key);
+                $(this).remove();
             })
         }
     });
@@ -110,16 +108,16 @@ function search(email) {
                 <li>
                     <div class="container border border-light bg-light">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-3 margin-0">
+                            <div class="col-2 p-2">
                                 <figure class="background--gray rounded-circle profile-picture">
                                     <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
                                 </figure>
                             </div>
-                            <div class="col-3">
-                                <span>${temp[friendKey].username}</span>
+                            <div class="col-6 ml-n5">
+                                <span class="text-sm-left text-nowrap">${temp[friendKey].username}</span>
                             </div>
-                            <div class="col-3 text-right">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img src="../img/cookie.ico"></button>
+                            <div class="col-3 mr-n4">
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
                             </div>
                         </div>    
                     </div>    

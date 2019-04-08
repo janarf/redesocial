@@ -76,6 +76,10 @@ form {
   width: 5%;
 }
 
+.btn-icon {
+  width: 70%;
+}
+
 .form-group--light:focus {
   background: transparent;
   color: #e5e5e5;
