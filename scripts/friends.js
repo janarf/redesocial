@@ -67,3 +67,37 @@ function friendList(name, key) {
         }
     });
 }
+
+function search(email) {
+    // database.ref("users").orderByChild("email").equalTo(email).once("value", snapshot => {
+    database.ref("users").once("value")
+        .then(function (snapshot) {
+            const temp = snapshot.val();
+            let notFound = true;
+            snapshot.forEach(function (childSnapshot) {
+                const friendKey = childSnapshot.key;
+                if (email === temp[friendKey].email) {
+                    notFound = false;
+                    $("#search").append(`  
+                <li>
+                    <span>${temp[friendKey].username}</span>
+                    <button data-friend-id=${friendKey}>Seguir</button>
+                </li>
+                `)
+                }
+            });
+            if (notFound) {
+                $("#search").append(`  
+                <li>
+                    <span>Usuária não encontrada!</span>
+                </li>
+                `)
+            }
+        });
+}
+
+document.getElementById("friend-search-btn").addEventListener("click", function () {
+    let inputName = $("#friend-search").val();
+    $("#search").find("li").remove();
+    search(inputName);
+})

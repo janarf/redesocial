@@ -61,23 +61,30 @@
         </div>
     </nav>
     <main>
-        <div class="container">
-            <div class="row">
-                <div class="col-2">
+        <div class="container-fluid w-100">
+            <div class="row align-items-start justify-content-around">
+                <div class="col-sm-3">
                     <h1>Amigas</h1>
                     <ul id="friend-list" class="list-group list-unstyled"></ul>
                 </div>
-                <div class="col-2">
+                <div class="col-sm-3">
                     <h1>Sugestões</h1>
-                    <input type="text" placeholder="Ache uma amiga" class="col-md-2" id="friend-search">
-                    <button class="btn btn-light" id="friend-search-btn">Buscar</button>
                     <ul id="suggestion-list" class="list-group list-unstyled"></ul>
                 </div>
-
-            </div>
-
-        </div>
-
+                <div class="col-sm-3 ">
+                    <h1>Busca</h1>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Procure uma amiga"
+                            aria-label="Procure uma amiga" aria-describedby="basic-addon2" id="friend-search">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="button"
+                                id="friend-search-btn">Buscar</button>
+                        </div>
+                        <div class="">
+                            <ul id="search" class="list-group list-unstyled"></ul>
+                        </div>
+                    </div>
+                </div>
     </main>
 
     <script src="../scripts/friends.js"></script>

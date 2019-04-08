@@ -55,7 +55,7 @@ function post(text, database, USER_ID, private = false) {
     post: text,
     likeCount: 0,
     privado: private,
-    timestamp: date
+    timestamp: firebase.database.ServerValue.TIMESTAMP
   })
 }
 
