@@ -71,12 +71,12 @@ function templateStringPost(text, name, key, likeCount = 0) {
 <div class="container mt-4 p-4 bg-light">
   <div class="container">
     <div class="row">
-      <div class="col-2 margin-0">
+      <div class="col-2 m-0 p-0">
           <figure class="background--gray rounded-circle profile-picture">
             <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
           </figure>
         </div>
-        <div class="col-10">
+        <div class="col-9 float-right">
         <p><strong>${name}</strong></p>
         <p>${text}</p>
         </div>
