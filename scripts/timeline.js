@@ -3,10 +3,12 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
 $(document).ready(function() {
   postInput()
+  setAside();
   loadTimeline();
   $('.select-public-private-timeline').change(() => {
     $(".post-list").html("")
     loadTimeline();
+
 
   })
 
@@ -76,7 +78,7 @@ function templateStringPost(text, name, key, likeCount = 0) {
             <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
           </figure>
         </div>
-        <div class="col-9 col-md-10 float-right">
+        <div class="col-9 col-md-10 float-right text--gray text--big">
         <p><strong>${name}</strong></p>
         <p>${text}</p>
         </div>
@@ -92,11 +94,12 @@ function templateStringPost(text, name, key, likeCount = 0) {
 }
 
 function setKeyToButton(key) {
-  $(`[data-div=${key}]`).click(function() {
-    $(this).remove();
+  $(`button[data-key=${key}]`).click(function() {
+    database.ref(`posts/${USER_ID}/${key}`).remove();
+    $(`[data-div=${key}]`).remove();
     $(".post-input").val("Pegue seu biscoito");
     postInput();
-    database.ref(`posts/${USER_ID}/${key}`).remove();
+
   })
 }
 
@@ -128,6 +131,30 @@ function setKeyToLike(key) {
   });
 }
 
-document.getElementById("friend-link").addEventListener("click", function() {
+$("#friend-link").click(() => {
   window.location = `../pages/friends.html?id=${USER_ID}`;
 })
+
+function setAside() {
+  database.ref("users/" + USER_ID)
+    .once('value')
+    .then(function(snapshot) {
+      const name = snapshot.val().username;
+      const email = snapshot.val().email;
+      $(".aside-container").html(`
+      <div class= "row align-baseline">
+              <figure class="background--gray rounded-circle align-baseline profile-picture">
+                <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+              </figure>
+              <div class="align-baseline text--gray">
+              <p class=" text--big mb-0 mt-2">
+              ${name}
+              </p>
+              <p>
+              ${email}
+              </p>
+              </div>
+              </div>
+            `)
+    })
+}

@@ -102,6 +102,10 @@ form {
   font-size: 0.8rem
 }
 
+.text--big {
+  font-size: 1rem;
+}
+
 .background--gray {
   background-color: #595057;
 }
@@ -110,8 +114,6 @@ form {
   margin: 10px;
   width: 46px;
   height: 46px;
-  float: right;
-  ;
 }
 
 .select--no-focus,
