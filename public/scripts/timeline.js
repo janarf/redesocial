@@ -26,8 +26,9 @@ $(document).ready(function () {
             .then(function (snapshot) {
               const name = snapshot.val().username;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
-              setKeyToButton(key)
+              setKeyToDelete(key)
               setKeyToLike(key)
+              setKeyToEdit(posts[key].post, key)
             })
         })
       })
@@ -81,7 +82,7 @@ function templateStringPost(text, name, key, likeCount) {
         </div>
         <div class="col-9 col-md-10 float-right text--gray text--big">
         <p><strong>${name}</strong></p>
-        <p>${text}</p>
+        <p data-text-id="${key}">${text}</p>
         </div>
       </div>
     </div>
@@ -90,18 +91,38 @@ function templateStringPost(text, name, key, likeCount) {
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
     <input data-comment="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
     <button data-key="${key}" type="button" class="delete"> Excluir </button>
+     <button data-edit="${key}" type="button" class="edit"> Editar</button>
   </div>
 </div>`
 }
 
-function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function () {
-    database.ref(`posts/${USER_ID}/${key}`).remove();
-    $(`[data-div=${key}]`).remove();
-    $(".post-input").val("Pegue seu biscoito");
-    postInput();
+function setKeyToEdit(text, key) {
+  $(`button[data-edit=${key}]`).click(function (){
+    let editPost = prompt(`Edite o seu post: ${text}`);
+    $(`p[data-text-id=${key}]`).html(editPost);
 
+    database.ref(`posts/${USER_ID}/${key}`).update({
+      post: editPost
+    });
   })
+
+} 
+
+
+
+function setKeyToDelete(key) {
+  $(`button[data-key=${key}]`).click(function () {
+    let deletePost = confirm("Deseja apagar mesmo esse post?");
+    if(deletePost){
+      $(`[data-div=${key}]`).remove();
+      $(".post-input").val("");
+
+      database.ref(`posts/${USER_ID}/${key}`).remove();
+    }else{
+      event.preventDefault();
+    }  
+
+  });
 }
 
 function setPublicOrPrivatePost(event) {
