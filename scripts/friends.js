@@ -22,15 +22,15 @@ function suggestion(name, key) {
         if (!snapshot.exists()) {
             if (key !== USER_ID) {
                 $("#suggestion-list").append(`  
-                <li>
+                <li id=${key + "suggestion"}>
                     <div class="container border border-light bg-light">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-2 p-2">
+                            <div class="col-2 p-2 ml-n4">
                                 <figure class="background--gray rounded-circle profile-picture">
                                     <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
                                 </figure>
                             </div>
-                            <div class="col-6 ml-n5">
+                            <div class="col-6 ml-n4">
                                 <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
                             <div class="col-3 mr-n4">
@@ -45,8 +45,8 @@ function suggestion(name, key) {
                 database.ref("friendship/" + USER_ID).push({
                     friendId: key
                 })
-                $(this).remove();
-                friendList(name, key);                
+                $('#' + key + "suggestion").remove();
+                friendList(name, key);
             })
         }
     });
@@ -57,15 +57,15 @@ function friendList(name, key) {
         if (snapshot.exists()) {
             if (key !== USER_ID) {
                 $("#friend-list").append(`  
-                <li>
+                <li id=${key}>
                     <div class="container border border-light bg-light">
                         <div class="row align-items-center justify-content-around">
-                            <div class="col-2 p-2">
+                            <div class="col-2 p-2 ml-n4">
                                 <figure class="background--gray rounded-circle profile-picture">
                                     <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
                                 </figure>
                             </div>
-                            <div class="col-6 ml-n5">
+                            <div class="col-6 ml-n4">
                                 <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
                             <div class="col-3 mr-n4">
@@ -88,7 +88,7 @@ function friendList(name, key) {
                             }
                         });
                     })
-                $(this).remove();
+                $('#' + key).remove();
             })
         }
     });
@@ -104,33 +104,51 @@ function search(email) {
                 const friendKey = childSnapshot.key;
                 if (email === temp[friendKey].email) {
                     notFound = false;
-                    $("#search").append(`  
-                <li>
-                    <div class="container border border-light bg-light">
-                        <div class="row align-items-center justify-content-around">
-                            <div class="col-2 p-2">
-                                <figure class="background--gray rounded-circle profile-picture">
-                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
-                                </figure>
-                            </div>
-                            <div class="col-6 ml-n5">
-                                <span class="text-sm-left text-nowrap">${temp[friendKey].username}</span>
-                            </div>
-                            <div class="col-3 mr-n4">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
-                            </div>
-                        </div>    
-                    </div>    
-                </li>
-                `)
+                    database.ref("friendship/" + USER_ID).orderByChild("friendId").equalTo(friendKey).once("value", snapshot => {
+                        if (!snapshot.exists()) {
+                            $("#search").append(`  
+                            <li id=${friendKey + "search"}>
+                                <div class="container border border-light bg-light">
+                                    <div class="row align-items-center justify-content-around">
+                                        <div class="col-2 p-2 ml-n4">
+                                            <figure class="background--gray rounded-circle profile-picture">
+                                                <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                            </figure>
+                                        </div>
+                                        <div class="col-6 ml-n4">
+                                            <span class="text-sm-left text-nowrap">${temp[friendKey].username}</span>
+                                        </div>
+                                        <div class="col-3 mr-n4">
+                                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
+                                        </div>
+                                    </div>    
+                                </div>    
+                            </li>
+                            `)
+                            $(`button[data-friend-id=${friendKey}]`).click(function () {
+                                database.ref("friendship/" + USER_ID).push({
+                                    friendId: friendKey
+                                })
+                                $('#' + friendKey + "search").remove();
+                                friendList(temp[friendKey].username, friendKey);
+                                $('#' + friendKey + "suggestion").remove();
+                            })
+                        } else {
+                            $("#search").append(`  
+                                <li>
+                                    <span>Usuária já está na lista de amigas!</span>
+                                </li>
+                            `)
+                        }
+                    });
                 }
             });
             if (notFound) {
                 $("#search").append(`  
-                <li>
-                    <span>Usuária não encontrada!</span>
-                </li>
-                `)
+            <li>
+                <span>Usuária não encontrada!</span>
+            </li>
+            `)
             }
         });
 }
