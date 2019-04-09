@@ -3,5 +3,4 @@
       username: name,
       email: email
     })
-
   }

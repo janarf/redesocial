@@ -34,9 +34,7 @@ $(document).ready(() => {
       })
   });
 
-  firebase.auth().signOut().then(function() {
-      // INSERIR AQUI REDIRECIONAMENTO LOGOUT
-    })
+  firebase.auth().signOut().then(function() {})
     .catch(function(error) {
       alert(`Erro desconhecido: ${error.code}: ${error.message}`);
     });

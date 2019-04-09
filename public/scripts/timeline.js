@@ -12,6 +12,7 @@ $(document).ready(function() {
 
   })
 
+
   function loadTimeline() {
     setPublicOrPrivateTimeline($('.select-public-private-timeline'))
       .once('value')
@@ -129,9 +130,14 @@ function setKeyToLike(key) {
     database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
   });
 }
-
 $("#friend-link").click(() => {
   window.location = `../pages/friends.html?id=${USER_ID}`;
+})
+
+$("#profile").click((e) => {
+
+  console.log('perfil')
+  window.location = `../pages/profile.html?id=${USER_ID}`;
 })
 
 function setAside() {
@@ -141,9 +147,9 @@ function setAside() {
       const name = snapshot.val().username;
       const email = snapshot.val().email;
       $(".aside-container").html(`
-      <div class= "row align-baseline">
+      <div class= "row align-baseline  mr-2">
               <figure class="background--gray rounded-circle align-baseline profile-picture">
-                <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                <img class="w-100 rounded-circle margin-0 " src="../img/icons/girl.png" alt="">
               </figure>
               <div class="align-baseline text--gray">
               <p class=" text--big mb-0 mt-2">
