@@ -34,7 +34,7 @@ function suggestion(name, key) {
                                 <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
                             <div class="col-3 mr-n4">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn--icon" src="../img/icons/addfriend.png"></button>
                             </div>
                         </div>    
                     </div>
@@ -69,7 +69,7 @@ function friendList(name, key) {
                                 <span class="text-sm-left text-nowrap">${name}</span>
                             </div>    
                             <div class="col-3 mr-n4">
-                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn-icon" src="../img/icons/deletefriend.png"></button>
+                                <button class="btn-xs border-0 btn--green rounded" data-friend-id=${key}><img class="margin-0 btn--icon" src="../img/icons/deletefriend.png"></button>
                             </div>
                         </div>    
                     </div>
@@ -119,7 +119,7 @@ function search(email) {
                                             <span class="text-sm-left text-nowrap">${temp[friendKey].username}</span>
                                         </div>
                                         <div class="col-3 mr-n4">
-                                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img class="margin-0 btn-icon" src="../img/icons/addfriend.png"></button>
+                                            <button class="btn-xs border-0 btn--green rounded" data-friend-id=${friendKey}><img class="margin-0 btn--icon" src="../img/icons/addfriend.png"></button>
                                         </div>
                                     </div>    
                                 </div>    
