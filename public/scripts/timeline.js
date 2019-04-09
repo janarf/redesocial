@@ -1,7 +1,7 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
-$(document).ready(function() {
+$(document).ready(function () {
   postInput()
   setAside();
   loadTimeline();
@@ -23,7 +23,7 @@ $(document).ready(function() {
         Object.keys(posts).forEach(key => {
           database.ref("users/" + USER_ID)
             .once('value')
-            .then(function(snapshot) {
+            .then(function (snapshot) {
               const name = snapshot.val().username;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
               setKeyToButton(key)
@@ -34,16 +34,16 @@ $(document).ready(function() {
   }
 
   function postInput() {
-    $(".post-input").click(function(event) {
+    $(".post-input").click(function (event) {
       $(".post-input").val("")
     })
   }
 
-  $(".post-text-btn").click(function(event) {
+  $(".post-text-btn").click(function (event) {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
-      $(".post-text-btn").on(function() {
+      $(".post-text-btn").on(function () {
         $(this).prop("disabled", true);
       });
     } else {
@@ -69,7 +69,7 @@ function post(text, database, USER_ID, private = false) {
 }
 
 
-function templateStringPost(text, name, key, likeCount = 0) {
+function templateStringPost(text, name, key, likeCount) {
   return `
 <div data-div=${key} class="container mt-4 p-4 bg-light">
   <div class="container">
@@ -86,15 +86,16 @@ function templateStringPost(text, name, key, likeCount = 0) {
       </div>
     </div>
     <hr>
-<div>
-  <button type="button" data-like=${key} value=${likeCount}><img src="../img/cookie.ico">&nbsp;&nbsp<span>${likeCount}</span></button>&nbsp;&nbsp
-  <button data-key="${key}" type="button" class="delete"> Excluir </button>
+  <div>
+    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
+    <input data-comment="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
+    <button data-key="${key}" type="button" class="delete"> Excluir </button>
   </div>
-  </div>`
+</div>`
 }
 
 function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function() {
+  $(`button[data-key=${key}]`).click(function () {
     database.ref(`posts/${USER_ID}/${key}`).remove();
     $(`[data-div=${key}]`).remove();
     $(".post-input").val("Pegue seu biscoito");
@@ -102,7 +103,6 @@ function setKeyToButton(key) {
 
   })
 }
-
 
 function setPublicOrPrivatePost(event) {
   if (event.val() === 'public') {
@@ -123,10 +123,10 @@ function setPublicOrPrivateTimeline(event) {
 }
 
 function setKeyToLike(key) {
-  $(`button[data-like=${key}]`).click(function() {
+  $(`input[data-like=${key}]`).click(function () {
     event.preventDefault();
-    let likeNum = parseInt($(`button[data-like=${key}]`).val()) + 1;
-    $(`button[data-like=${key}] > span`).html(likeNum);
+    let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
+    $(`input[data-like=${key}]`).html(likeNum);
     database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
   });
 }
@@ -143,7 +143,7 @@ $("#profile").click((e) => {
 function setAside() {
   database.ref("users/" + USER_ID)
     .once('value')
-    .then(function(snapshot) {
+    .then(function (snapshot) {
       const name = snapshot.val().username;
       const email = snapshot.val().email;
       $(".aside-container").html(`
@@ -163,3 +163,32 @@ function setAside() {
             `)
     })
 }
+
+function comment(text, key) {
+  database.ref('comments/' + posts[key] ).push({
+    comment: text,
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  })
+}
+
+function templateStringComment(text, name, key, timestamp) {
+  return `
+<div data-div=${key} class="container mt-4 p-4 bg-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-2 col-md-1 m-0 p-0">
+          <figure class="background--gray rounded-circle profile-picture">
+            <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+          </figure>
+        </div>
+        <div class="col-9 col-md-10 float-right text--gray text--big">
+        <p><strong>${name}</strong></p>
+        <p>${text}</p>
+        <p>${timestamp}</p>
+        </div>
+      </div>
+    </div>
+</div>`
+}
+
+templateStringComment();

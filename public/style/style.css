@@ -76,8 +76,12 @@ form {
   width: 5%;
 }
 
-.btn-icon {
+.btn--icon {
   width: 70%;
+}
+
+.btn--comment {
+  width: 30%;
 }
 
 .form-group--light:focus {
