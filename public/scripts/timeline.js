@@ -205,7 +205,6 @@ function comment(username, text, key) {
   database.ref('comments/' + key).push({
     name: username,
     comment: text,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
   })
 }
 
@@ -227,9 +226,6 @@ function addComment(key) {
               <div class="col-9 col-md-10 float-right text--gray text--big">
                 <p><strong>${temp[commentKey].name}</strong></p>
                 <p>${temp[commentKey].comment}</p>
-              </div>  
-              <div>
-                <p>${temp[commentKey].timestamp}</p>
               </div>
             </div>
           </div>
@@ -258,6 +254,8 @@ function setKeyToComment(key) {
       let text = $(`textarea[data-comment=${key}]`).val()
       comment(username, text, key);
       $("#comment-area").remove();
+      $(`div[data-area=${key}]`).find("div").remove();
+      addComment(key);
     })
   })
 
