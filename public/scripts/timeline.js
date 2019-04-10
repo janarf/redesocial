@@ -338,16 +338,18 @@ $(document).ready(function() {
 
   function handleFileUploadSubmit(e) {
     e.preventDefault()
+
     storageRef.child(`images/${USER_ID}/posts/${selectedFile.name}`)
       .put(selectedFile)
-      .then(
-        storageRef.child(`images/${USER_ID}/posts/${selectedFile.name}`).getDownloadURL()
-        .then(snapshot => {
-          post(snapshot, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")))
-          $('.post-img-btn').addClass("d-none")
-          $('.post-text-btn').show()
-          $('.post-input').html('Pegue seu biscoito')
-          loadTimeline()
-        }))
+      .then((file) => {
+        file.ref.getDownloadURL()
+          .then(snapshot => {
+            post(snapshot, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")))
+            $('.post-img-btn').addClass("d-none")
+            $('.post-text-btn').show()
+            $('.post-input').html('Pegue seu biscoito')
+            loadTimeline()
+          })
+      });
   }
 });
