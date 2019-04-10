@@ -1,23 +1,56 @@
 const storage = firebase.storage();
 const storageRef = storage.ref()
-document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
-document.querySelector('.file-submit').addEventListener('click', handleFileUploadSubmit);
-let selectedFile;
+console.log(USER_ID)
+$(document).ready(function() {
+  $('.file-select').on('change', handleFileUploadChange);
+  $('.file-submit').on('click', handleFileUploadSubmit);
+  let selectedFile;
+  setProfileDiv()
 
-function handleFileUploadChange(e) {
-  selectedFile = e.target.files[0];
-  console.log(selectedFile);
-}
+  function handleFileUploadChange(e) {
+    selectedFile = e.target.files[0];
+    $('.custom-file-label').html(selectedFile.name);
+  }
 
-function handleFileUploadSubmit(e) {
-  const uploadTask = storageRef.child(`images/${selectedFile.name}`).put(selectedFile); //create a child directory called images, and place the file inside this directory
-  uploadTask.on('state_changed', (snapshot) => {
-    // Observe state change events such as progress, pause, and resume
-  }, (error) => {
-    // Handle unsuccessful uploads
-    console.log(error);
-  }, () => {
-    // Do something once upload is complete
-    console.log('success');
+  function handleFileUploadSubmit(e) {
+    storageRef.child(`images/${USER_ID}/profilePicture`)
+      .put(selectedFile)
+    storageRef.child(`images/${USER_ID}/profilePicture`)
+      .getDownloadURL()
+      .then(snapshot => {
+        updatePhoto(snapshot);
+        setProfileDiv()
+      })
+
+
+    $('.custom-file-label').html('Escolher foto');
+  }
+
+  function setProfileDiv() {
+    console.log('entrou')
+    database.ref("users/" + USER_ID)
+      .once('value')
+      .then(function(snapshot) {
+
+        const name = snapshot.val().username;
+        const imgURL = snapshot.val().imgURL;
+        console.log(name, imgURL)
+        $('.profile-info').html(templateProfile(name, imgURL))
+      })
+  }
+
+  function templateProfile(name, imgURL) {
+    return `<figure class="background--gray rounded-circle w-25 d-inline-block ">
+            <img class="w-100 rounded-circle margin-0" src="${imgURL}" alt="">
+          </figure>
+<div class="d-inline-block text--gray p-2">
+          <p class="text-wrap" >${name}</p>
+          </div>`
+  }
+})
+
+function updatePhoto(newImg) {
+  database.ref(`users/${USER_ID}`).update({
+    imgURL: newImg
   });
 }
