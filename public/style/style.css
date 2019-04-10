@@ -50,6 +50,14 @@ form {
   border-radius: 1%;
 }
 
+.edit-hidden {
+  display: none;
+}
+
+.save-button {
+  display: none;
+}
+
 .form-group--light,
 .form-group--light:hover,
 .form-group--light:active,
