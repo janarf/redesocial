@@ -7,6 +7,8 @@ const storageRef = storage.ref()
 $(document).ready(function() {
   postInput()
   setAside();
+  setProfilePicture();
+  setAsideFriends();
   loadTimeline();
   $('.select-public-private-timeline').change(() => {
     $(".post-list").html("")
@@ -25,7 +27,6 @@ $(document).ready(function() {
             .once('value')
             .then(function(snapshot) {
               const name = snapshot.val().username;
-
               const imgURL = snapshot.val().imgURL;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
               setKeyToButton(key)
@@ -62,8 +63,6 @@ $(document).ready(function() {
     };
   });
 
-
-
   function post(text, database, USER_ID, private = false) {
     database.ref('posts/' + USER_ID).push({
       post: text,
@@ -76,9 +75,13 @@ $(document).ready(function() {
   function templateStringPost(text, name, key, likeCount, imgURL) {
     let content = '';
     if (text.substring(0, 38) === 'https://firebasestorage.googleapis.com') {
-      content = `<figure><img data-text-id="${key}" id="text-post-${key} class="img-fluid" src=${text}></figure>`
+      content = `
+      <div class= "container-fluid w-100">
+        <img data-text-id="${key}" id="text-post-${key}" class="w-100" src=${text} />
+      </div>`
     } else {
       content = `<p data-text-id="${key}" id="text-post-${key}">${text}</p>`
+
     }
     return `
 <div data-div=${key} class="container mt-4 p-4 bg-light">
@@ -104,8 +107,6 @@ $(document).ready(function() {
     <button data-key="${key}" type="button" id="delete-button-${key}" > Excluir </button>
     <button data-edit="${key}" type="button"  id="edit-button-${key}"> Editar</button>
     <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}"> Salvar </button>
-
-
     <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
 
 
@@ -207,19 +208,52 @@ $(document).ready(function() {
         $(".aside-container").html(`
       <div class= "row mr-2">
               <figure class="background--gray rounded-circle profile-picture">
-                <img class="w-100 rounded-circle margin-0 " src="${imgURL}" alt="">
+                <img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">
               </figure>
-              <div class="text--gray">
+              <div class="text--gray pl-2">
               <p class="mb-0 mt-2">
               ${name}
               </p>
               <p>
-              ${email}
+              <small>${email}</small>
               </p>
               </div>
               </div>
             `)
       })
+  }
+
+  function setProfilePicture() {
+    database.ref("users/" + USER_ID)
+      .once('value')
+      .then(function(snapshot) {
+        const imgURL = snapshot.val().imgURL;
+        $("#timeline-profile-picture").html(`<img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">`)
+      })
+  }
+
+  function setAsideFriends() {
+
+    database.ref("friendship/" + USER_ID)
+      .once('value')
+      .then(function(snapshot) {
+        const friends = snapshot.val();
+        if (!friends) return;
+        Object.keys(friends).forEach(friendKey => {
+          database.ref("users/" + friends[friendKey].friendId)
+            .once('value')
+            .then(function(snapshot) {
+              let friend = snapshot.val();
+              $(".images-Friends").append(templateFriends(friend.imgURL, friend.username));
+            })
+        })
+      })
+  }
+
+  function templateFriends(imgURL, name) {
+    return `
+    <img class="rounded-circle profile-picture" src="${imgURL}" title="${name}"alt="">
+  `
   }
 
   function comment(username, text, key) {
