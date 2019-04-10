@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="../style/style.css">
   <link rel="shortcut icon" type="image/x-icon" href="../img/cookie.ico">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
@@ -15,6 +14,7 @@
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-database.js "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-storage.js"></script>
+  <link rel="stylesheet" href="../style/style.css">
 
   <script src="../scripts/config.js "></script>
 
@@ -60,18 +60,20 @@
           <div class="sidebar-heading aside-container"> Perfil</div>
         </div>
         <hr>
-        <div class="text--gray mx-auto">
+        <div class="text--gray d-flex justify-content-center">
           <p class="mx-auto">Amigas</p>
+
         </div>
+        <section class="container  d-flex justify-content-center ">
+          <div class="images-Friends flex-wrap"></div>
+        </section>
       </aside>
 
       <div class="col-lg-8">
         <div class="container bg-light mt-4 p-4">
-
           <div class="row">
             <div class="d-flex justify-content-end col-2  m-0 p-0 ">
-              <figure class="background--gray rounded-circle profile-picture">
-                <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+              <figure class="background--gray rounded-circle profile-picture" id="timeline-profile-picture">
               </figure>
             </div>
             <div class="col-9 pl-0 text--gray " id="input-post">

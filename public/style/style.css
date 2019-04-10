@@ -131,6 +131,11 @@ form {
   height: 46px;
 }
 
+.profile-picture--big {
+  width: 120px;
+  height: 120px;
+}
+
 select,
 select:active,
 select:focus {
