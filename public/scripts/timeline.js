@@ -28,7 +28,7 @@ $(document).ready(function () {
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
               setKeyToDelete(key)
               setKeyToLike(key)
-              setKeyToEdit(posts[key].post, key)
+              setKeyToEdit(key)
             })
         })
       })
@@ -82,6 +82,10 @@ function templateStringPost(text, name, key, likeCount) {
         </div>
         <div class="col-9 col-md-10 float-right text--gray text--big">
         <p><strong>${name}</strong></p>
+        <div class="text-right mr-n5 mt-n5">
+        <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
+        <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
+        </div>
         <p data-text-id="${key}" id="text-post-${key}">${text}</p>
         <input data-text-input="${key}" class="edit-hidden" value=${text} id="edit-${key}">
         </div>
@@ -91,16 +95,17 @@ function templateStringPost(text, name, key, likeCount) {
   <div>
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
     <input data-comment="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    <button data-key="${key}" type="button" id="delete-button-${key}" > Excluir </button>
-    <button data-edit="${key}" type="button"  id="edit-button-${key}"> Editar</button>
+    
+    
+  
     <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}"> Salvar </button>
    
   </div>
 </div>`
 }
 
-function setKeyToEdit(text, key) {
-  $(`button[data-edit=${key}]`).click(function (){
+function setKeyToEdit(key) {
+  $(`input[data-edit=${key}]`).click(function (){
     document.getElementById(`edit-${key}`).className = "";
     document.getElementById(`text-post-${key}`).className = "edit-hidden";
     document.getElementById(`save-button-${key}`).className = "";
@@ -127,17 +132,23 @@ function setKeyToEdit(text, key) {
 
 
 function setKeyToDelete(key) {
-  $(`button[data-key=${key}]`).click(function () {
-    let deletePost = confirm("Deseja apagar mesmo esse post?");
+  $(`input[data-key=${key}]`).click(function () {
+    let deletePost = document.getElementById("delete-modal");
+    
     if(deletePost){
-      $(`[data-div=${key}]`).remove();
-      $(".post-input").val("");
+      document.getElementById("delete-modal").addEventListener("click", function(){
+        $(`[data-div=${key}]`).remove();
+        $(".post-input").val("");
+  
+        database.ref(`posts/${USER_ID}/${key}`).remove();
+        $("#exampleModalCenter").modal('hide');
+      })
 
-      database.ref(`posts/${USER_ID}/${key}`).remove();
     }else{
       event.preventDefault();
-    }  
-
+    }      
+    
+    
   });
 }
 
