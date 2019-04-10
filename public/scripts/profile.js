@@ -1,3 +1,4 @@
+const storage = firebase.storage();
 const storageRef = storage.ref()
 document.querySelector('.file-select').addEventListener('change', handleFileUploadChange);
 document.querySelector('.file-submit').addEventListener('click', handleFileUploadSubmit);

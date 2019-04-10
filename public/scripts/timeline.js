@@ -17,8 +17,6 @@ $(document).ready(function () {
   $('.select-public-private-timeline').change(() => {
     $(".post-list").html("")
     loadTimeline();
-
-
   })
 
   function loadTimeline() {
@@ -31,30 +29,32 @@ $(document).ready(function () {
         Object.keys(posts).forEach(key => {
           database.ref("users/" + USER_ID)
             .once('value')
-            .then(function (snapshot) {
+            .then(function(snapshot) {
               const name = snapshot.val().username;
-              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount))
+
+              const imgURL = snapshot.val().imgURL;
+              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
               setKeyToButton(key)
               setKeyToLike(key)
               setKeyToComment(key)
               addComment(key)
-
+              setKeyToEdit(posts[key].post, key)
             })
         })
       })
   }
 
   function postInput() {
-    $(".post-input").click(function (event) {
+    $(".post-input").click(function(event) {
       $(".post-input").val("")
     })
   }
 
-  $(".post-text-btn").click(function (event) {
+  $(".post-text-btn").click(function(event) {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
-      $(".post-text-btn").on(function () {
+      $(".post-text-btn").on(function() {
         $(this).prop("disabled", true);
       });
     } else {
@@ -79,19 +79,19 @@ function post(text, database, USER_ID, private = false) {
   })
 }
 
-function templateStringPost(text, name, key, likeCount) {
+function templateStringPost(text, name, key, likeCount, imgURL) {
   return `
 <div data-div=${key} class="container mt-4 p-4 bg-light">
   <div class="container">
     <div class="row">
       <div class="col-2 col-md-1 m-0 p-0">
           <figure class="background--gray rounded-circle profile-picture">
-            <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+            <img class="w-100 rounded-circle margin-0" src="${imgURL}" alt="">
           </figure>
         </div>
-        <div class="col-9 col-md-10 float-right text--gray text--big">
+        <div class="col-9 col-md-10 text--gray text--big">
         <p><strong>${name}</strong></p>
-        <p>${text}</p>
+        <p data-text-id="${key}">${text}</p>
         </div>
       </div>
     </div>
@@ -100,6 +100,7 @@ function templateStringPost(text, name, key, likeCount) {
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
     <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
     <button data-key="${key}" type="button" class="delete"> Excluir </button>
+     <button data-edit="${key}" type="button" class="edit"> Editar</button>
   </div>
   <hr>
   <div>
@@ -109,14 +110,43 @@ function templateStringPost(text, name, key, likeCount) {
 </div>`
 }
 
-function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function () {
+
+    function setKeyToButton(key) {
+  $(`button[data-key=${key}]`).click(function() {
     database.ref(`posts/${USER_ID}/${key}`).remove();
     $(`[data-div=${key}]`).remove();
     $(".post-input").val("Pegue seu biscoito");
     postInput();
 
   })
+}
+
+function setKeyToEdit(text, key) {
+  $(`button[data-edit=${key}]`).click(function (){
+    let editPost = prompt(`Edite o seu post: ${text}`);
+    $(`p[data-text-id=${key}]`).html(editPost);
+    database.ref(`posts/${USER_ID}/${key}`).update({
+      post: editPost
+    });
+  })
+
+} 
+
+
+
+function setKeyToDelete(key) {
+  $(`button[data-key=${key}]`).click(function () {
+    let deletePost = confirm("Deseja apagar mesmo esse post?");
+    if(deletePost){
+      $(`[data-div=${key}]`).remove();
+      $(".post-input").val("");
+
+      database.ref(`posts/${USER_ID}/${key}`).remove();
+    }else{
+      event.preventDefault();
+    }  
+
+  });
 }
 
 function setPublicOrPrivatePost(event) {
@@ -138,7 +168,7 @@ function setPublicOrPrivateTimeline(event) {
 }
 
 function setKeyToLike(key) {
-  $(`input[data-like=${key}]`).click(function () {
+  $(`input[data-like=${key}]`).click(function() {
     event.preventDefault();
     let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
     $(`input[data-like=${key}]`).html(likeNum);
@@ -149,16 +179,17 @@ function setKeyToLike(key) {
 function setAside() {
   database.ref("users/" + USER_ID)
     .once('value')
-    .then(function (snapshot) {
+    .then(function(snapshot) {
       const name = snapshot.val().username;
       const email = snapshot.val().email;
+      const imgURL = snapshot.val().imgURL;
       $(".aside-container").html(`
-      <div class= "row align-baseline  mr-2">
-              <figure class="background--gray rounded-circle align-baseline profile-picture">
-                <img class="w-100 rounded-circle margin-0 " src="../img/icons/girl.png" alt="">
+      <div class= "row mr-2">
+              <figure class="background--gray rounded-circle profile-picture">
+                <img class="w-100 rounded-circle margin-0 " src="${imgURL}" alt="">
               </figure>
-              <div class="align-baseline text--gray">
-              <p class=" text--big mb-0 mt-2">
+              <div class="text--gray">
+              <p class="mb-0 mt-2">
               ${name}
               </p>
               <p>
