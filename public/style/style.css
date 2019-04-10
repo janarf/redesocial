@@ -80,6 +80,11 @@ form {
   -webkit-text-fill-color: #e5e5e5;
 }
 
+.picture {
+  width: 1.5rem;
+  cursor: pointer;
+}
+
 .cookie {
   width: 3rem;
 }
@@ -126,11 +131,14 @@ form {
   height: 46px;
 }
 
-.select--no-focus,
-.select--no-focus:focus,
-.select--no-focus:active,
 select,
 select:active,
 select:focus {
+  outline: 0;
+}
+
+button,
+button:active,
+button:focus {
   outline: 0 !important;
 }

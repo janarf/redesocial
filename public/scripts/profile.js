@@ -1,6 +1,3 @@
-const storage = firebase.storage();
-const storageRef = storage.ref()
-console.log(USER_ID)
 $(document).ready(function() {
   $('.file-select').on('change', handleFileUploadChange);
   $('.file-submit').on('click', handleFileUploadSubmit);
@@ -14,27 +11,32 @@ $(document).ready(function() {
 
   function handleFileUploadSubmit(e) {
     storageRef.child(`images/${USER_ID}/profilePicture`)
-      .put(selectedFile)
-    storageRef.child(`images/${USER_ID}/profilePicture`)
-      .getDownloadURL()
-      .then(snapshot => {
-        updatePhoto(snapshot);
-        setProfileDiv()
-      })
+      .put(selectedFile).then(
+        storageRef.child(`images/${USER_ID}/profilePicture`)
+        .getDownloadURL()
+        .then(snapshot => {
+          updatePhoto(snapshot);
+          database.ref("users/" + USER_ID)
+            .once('value')
+            .then(function(snapshot) {
 
+              const name = snapshot.val().username;
+              const imgURL = snapshot.val().imgURL;
+              $('.profile-info').html(templateProfile(name, imgURL))
+            })
+        })
+      )
 
     $('.custom-file-label').html('Escolher foto');
   }
 
   function setProfileDiv() {
-    console.log('entrou')
     database.ref("users/" + USER_ID)
       .once('value')
       .then(function(snapshot) {
 
         const name = snapshot.val().username;
         const imgURL = snapshot.val().imgURL;
-        console.log(name, imgURL)
         $('.profile-info').html(templateProfile(name, imgURL))
       })
   }
