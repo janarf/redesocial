@@ -29,9 +29,9 @@ $(document).ready(function() {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
-              setKeyToButton(key)
               setKeyToLike(key)
               setKeyToEdit(key)
+              setKeyToDelete(key)
               setKeyToComment(key)
  
             })
@@ -84,34 +84,36 @@ $(document).ready(function() {
 
     }
     return `
-<div data-div=${key} class="container mt-4 p-4 bg-light">
-  <div class="container">
-    <div class="row">
-      <div class="col-2 col-md-1 m-0 p-0">
+  <div data-div=${key} class="container mt-4 p-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-2 col-md-1 m-0 p-0">
           <figure class="background--gray rounded-circle profile-picture">
-            <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
+          <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
           </figure>
         </div>
         <div class="col-9 col-md-10 text--gray text--big">
-        <p><strong>${name}</strong></p>
-   
-        <div class="text-right mr-n5 mt-n5">
+        <div class="text-right mr-n5">
         <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
         <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
         </div>
-        <p data-text-id="${key}" id="text-post-${key}">${text}</p>
+        
+          <p><strong>${name}</strong></p>
+
 
         ${content}
-
+     
         <input data-text-input="${key}" class="edit-hidden" value=${text} id="edit-${key}">
+
+        
         </div>
       </div>
     </div>
     <hr>
-
+    <div>
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
-    <input data-comment="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}"> Salvar </button>
+    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
+    <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}" > Salvar </button>
 
   </div>
   <hr>
@@ -160,6 +162,7 @@ function setKeyToDelete(key) {
         $(".post-input").val("");
   
         database.ref(`posts/${USER_ID}/${key}`).remove();
+        database.ref(`comments/${key}`).remove();
         $("#exampleModalCenter").modal('hide');
       })
 
@@ -171,7 +174,7 @@ function setKeyToDelete(key) {
   });
 }
 
-  }
+  
 
   function setPublicOrPrivatePost(event) {
     if (event.val() === 'public') {
