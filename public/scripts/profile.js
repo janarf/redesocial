@@ -13,24 +13,34 @@ $(document).ready(function() {
 
   function handleFileUploadSubmit(e) {
     storageRef.child(`images/${USER_ID}/profilePicture`)
-      .put(selectedFile).then(
+      .put(selectedFile)
+      .then((snapshot) => {
+        snapshot.ref.getDownloadURL().then(
+          snapshot => {
+            updatePhoto(snapshot);
+
+          }
+        )
         storageRef.child(`images/${USER_ID}/profilePicture`)
-        .getDownloadURL()
-        .then(snapshot => {
-          updatePhoto(snapshot);
-          database.ref("users/" + USER_ID)
-            .once('value')
-            .then(function(snapshot) {
-
-              const name = snapshot.val().username;
-              const imgURL = snapshot.val().imgURL;
-              $('.profile-info').html(templateProfile(name, imgURL))
-            })
-        })
-      )
-
+          .getDownloadURL()
+          .then(snapshot => {
+            updatePhoto(snapshot);
+            console.log()
+            database.ref("users/" + USER_ID)
+              .once('value')
+              .then(function(snapshot) {
+                const name = snapshot.val().username;
+                const imgURL = snapshot.val().imgURL;
+                const email = snapshot.val().email;
+                $('.profile-info').html(templateProfile(name, email, imgURL));
+              })
+          })
+      })
     $('.custom-file-label').html('Escolher foto');
   }
+
+
+
 
   function setProfileDiv() {
     database.ref("users/" + USER_ID)
