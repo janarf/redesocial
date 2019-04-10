@@ -115,11 +115,6 @@ form {
 
 .text--gray {
   color: #595057;
-  font-size: 0.8rem
-}
-
-.text--big {
-  font-size: 1rem;
 }
 
 .background--gray {
@@ -127,7 +122,6 @@ form {
 }
 
 .profile-picture {
-  margin: 10px;
   width: 46px;
   height: 46px;
 }
