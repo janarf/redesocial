@@ -1,7 +1,16 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 
-$(document).ready(function() {
+$("#friend-link").click(() => {
+  window.location = `../pages/friends.html?id=${USER_ID}`;
+})
+
+$("#profile").click((e) => {
+  console.log('perfil')
+  window.location = `../pages/profile.html?id=${USER_ID}`;
+})
+
+$(document).ready(function () {
   postInput()
   setAside();
   loadTimeline();
@@ -9,7 +18,6 @@ $(document).ready(function() {
     $(".post-list").html("")
     loadTimeline();
   })
-
 
   function loadTimeline() {
     setPublicOrPrivateTimeline($('.select-public-private-timeline'))
@@ -27,9 +35,9 @@ $(document).ready(function() {
               const imgURL = snapshot.val().imgURL;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
               setKeyToButton(key)
-
-              
               setKeyToLike(key)
+              setKeyToComment(key)
+              addComment(key)
               setKeyToEdit(posts[key].post, key)
             })
         })
@@ -71,7 +79,6 @@ function post(text, database, USER_ID, private = false) {
   })
 }
 
-
 function templateStringPost(text, name, key, likeCount, imgURL) {
   return `
 <div data-div=${key} class="container mt-4 p-4 bg-light">
@@ -91,10 +98,15 @@ function templateStringPost(text, name, key, likeCount, imgURL) {
     <hr>
   <div>
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
-    <input data-comment="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
+    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
     <button data-key="${key}" type="button" class="delete"> Excluir </button>
      <button data-edit="${key}" type="button" class="edit"> Editar</button>
   </div>
+  <hr>
+  <div>
+    <p><strong>Comentários</strong></p>
+    <div class="comment-list" data-area=${key}></div>
+  </div>  
 </div>`
 }
 
@@ -163,15 +175,6 @@ function setKeyToLike(key) {
     database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
   });
 }
-$("#friend-link").click(() => {
-  window.location = `../pages/friends.html?id=${USER_ID}`;
-})
-
-$("#profile").click((e) => {
-
-  console.log('perfil')
-  window.location = `../pages/profile.html?id=${USER_ID}`;
-})
 
 function setAside() {
   database.ref("users/" + USER_ID)
@@ -198,31 +201,64 @@ function setAside() {
     })
 }
 
-function comment(text, key) {
-  database.ref('comments/' + posts[key]).push({
+function comment(username, text, key) {
+  database.ref('comments/' + key).push({
+    name: username,
     comment: text,
     timestamp: firebase.database.ServerValue.TIMESTAMP
   })
 }
 
-function templateStringComment(text, name, key, timestamp, imgURL) {
-  return `
-<div data-div=${key} class="container mt-4 p-4 bg-light">
-  <div class="container">
-    <div class="row">
-      <div class="col-2 col-md-1 m-0 p-0">
-          <figure class="background--gray rounded-circle profile-picture">
-            <img class="w-100 rounded-circle margin-0" src="${imgURL}" alt="">
-          </figure>
+function addComment(key) {
+  database.ref("comments/" + key).once("value")
+    .then(function (snapshot) {
+      const temp = snapshot.val();
+      snapshot.forEach(function (childSnapshot) {
+        const commentKey = childSnapshot.key;
+        $(`div[data-area=${key}]`).append(`
+        <div class="container mt-4 p-4 bg-light">
+          <div class="container">
+            <div class="row">
+              <div class="col-2 col-md-1 m-0 p-0">
+                <figure class="background--gray rounded-circle profile-picture">
+                  <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                </figure>
+              </div>
+              <div class="col-9 col-md-10 float-right text--gray text--big">
+                <p><strong>${temp[commentKey].name}</strong></p>
+                <p>${temp[commentKey].comment}</p>
+              </div>  
+              <div>
+                <p>${temp[commentKey].timestamp}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-9 col-md-10 text--gray">
-        <p><strong>${name}</strong></p>
-        <p>${text}</p>
-        <p>${timestamp}</p>
-        </div>
-      </div>
-    </div>
-</div>`
+        `)
+      });
+    })
 }
 
-templateStringComment();
+function setKeyToComment(key) {
+  let username = "";
+  database.ref("users/" + USER_ID).once('value')
+    .then(function (snapshot) {
+      username = snapshot.val().username;
+  });
+  $(`input[data-comment-btn=${key}]`).click(function () {
+    event.preventDefault();
+    $(`[data-div=${key}]`).append(`
+    <div id="comment-area" class="text-right">
+      <hr>
+      <textarea data-comment=${key} class="form-control border-0  mb-0 w-100 bg-light" rows="1"}"></textarea>
+      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green rounded">Comentar</button>
+    </div> 
+    `)
+    $(`button[data-submit=${key}]`).click(function () {
+      let text = $(`textarea[data-comment=${key}]`).val()
+      comment(username, text, key);
+      $("#comment-area").remove();
+    })
+  })
+
+}
