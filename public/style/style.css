@@ -80,8 +80,13 @@ form {
   -webkit-text-fill-color: #e5e5e5;
 }
 
+.picture {
+  width: 1.5rem;
+  cursor: pointer;
+}
+
 .cookie {
-  width: 5%;
+  width: 3rem;
 }
 
 .btn--icon {
@@ -115,11 +120,6 @@ form {
 
 .text--gray {
   color: #595057;
-  font-size: 0.8rem
-}
-
-.text--big {
-  font-size: 1rem;
 }
 
 .background--gray {
@@ -127,16 +127,23 @@ form {
 }
 
 .profile-picture {
-  margin: 10px;
   width: 46px;
   height: 46px;
 }
 
-.select--no-focus,
-.select--no-focus:focus,
-.select--no-focus:active,
+.profile-picture--big {
+  width: 120px;
+  height: 120px;
+}
+
 select,
 select:active,
 select:focus {
+  outline: 0;
+}
+
+button,
+button:active,
+button:focus {
   outline: 0 !important;
 }
