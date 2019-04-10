@@ -1,16 +1,10 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
+const storage = firebase.storage();
+const storageRef = storage.ref()
 
-$("#friend-link").click(() => {
-  window.location = `../pages/friends.html?id=${USER_ID}`;
-})
 
-$("#profile").click((e) => {
-  console.log('perfil')
-  window.location = `../pages/profile.html?id=${USER_ID}`;
-})
-
-$(document).ready(function () {
+$(document).ready(function() {
   postInput()
   setAside();
   loadTimeline();
@@ -67,20 +61,26 @@ $(document).ready(function () {
       $(".select-public-private").val("public")
     };
   });
-});
 
 
-function post(text, database, USER_ID, private = false) {
-  database.ref('posts/' + USER_ID).push({
-    post: text,
-    likeCount: 0,
-    privado: private,
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  })
-}
 
-function templateStringPost(text, name, key, likeCount, imgURL) {
-  return `
+  function post(text, database, USER_ID, private = false) {
+    database.ref('posts/' + USER_ID).push({
+      post: text,
+      likeCount: 0,
+      privado: private,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    })
+  }
+
+  function templateStringPost(text, name, key, likeCount, imgURL) {
+    let content = '';
+    if (text.substring(0, 38) === 'https://firebasestorage.googleapis.com') {
+      content = `<figure><img data-text-id="${key}" id="text-post-${key} class="img-fluid" src=${text}></figure>`
+    } else {
+      content = `<p data-text-id="${key}" id="text-post-${key}">${text}</p>`
+    }
+    return `
 <div data-div=${key} class="container mt-4 p-4 bg-light">
   <div class="container">
     <div class="row">
@@ -91,7 +91,7 @@ function templateStringPost(text, name, key, likeCount, imgURL) {
         </div>
         <div class="col-9 col-md-10 text--gray text--big">
         <p><strong>${name}</strong></p>
-        <p data-text-id="${key}" id="text-post-${key}">${text}</p>
+        ${content}
         <input data-text-input="${key}" class="edit-hidden" value=${text} id="edit-${key}">
         </div>
       </div>
@@ -104,111 +104,107 @@ function templateStringPost(text, name, key, likeCount, imgURL) {
     <button data-key="${key}" type="button" id="delete-button-${key}" > Excluir </button>
     <button data-edit="${key}" type="button"  id="edit-button-${key}"> Editar</button>
     <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}"> Salvar </button>
-   
+
 
     <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    
+
 
   </div>
   <hr>
   <div>
     <p><strong>Comentários</strong></p>
     <div class="comment-list" data-area=${key}></div>
-  </div>  
+  </div>
 </div>`
-}
+  }
 
 
-    function setKeyToButton(key) {
-  $(`button[data-key=${key}]`).click(function() {
-    database.ref(`posts/${USER_ID}/${key}`).remove();
-    $(`[data-div=${key}]`).remove();
-    $(".post-input").val("Pegue seu biscoito");
-    postInput();
-
-  })
-}
-
-function setKeyToEdit(text, key) {
-  $(`button[data-edit=${key}]`).click(function (){
-
-    document.getElementById(`edit-${key}`).className = "";
-    document.getElementById(`text-post-${key}`).className = "edit-hidden";
-    document.getElementById(`save-button-${key}`).className = "";
-    document.getElementById(`delete-button-${key}`).className = "edit-hidden";
-    document.getElementById(`edit-button-${key}`).className = "edit-hidden";
-   
-
-   
-  })
-  $(`button[data-save=${key}]`).click(function (){
-    let newText = document.getElementById(`edit-${key}`).value;
-    document.getElementById(`text-post-${key}`).innerHTML = newText;
-
-    document.getElementById(`edit-${key}`).className = "edit-hidden";
-    document.getElementById(`text-post-${key}`).className = "";
-    document.getElementById(`save-button-${key}`).className = "edit-hidden";
-    document.getElementById(`delete-button-${key}`).className = "";
-    document.getElementById(`edit-button-${key}`).className = "";
-
-    database.ref(`posts/${USER_ID}/${key}`).update({
-      post: newText
-    });   
-  })
-  
-}
-
-
-function setKeyToDelete(key) {
-  $(`button[data-key=${key}]`).click(function () {
-    let deletePost = confirm("Deseja apagar mesmo esse post?");
-    if(deletePost){
-      $(`[data-div=${key}]`).remove();
-      $(".post-input").val("");
-
+  function setKeyToButton(key) {
+    $(`button[data-key=${key}]`).click(function() {
       database.ref(`posts/${USER_ID}/${key}`).remove();
-    }else{
+      $(`[data-div=${key}]`).remove();
+      $(".post-input").val("Pegue seu biscoito");
+
+    })
+  }
+
+  function setKeyToEdit(text, key) {
+    $(`button[data-edit=${key}]`).click(function() {
+
+      document.getElementById(`edit-${key}`).className = "";
+      document.getElementById(`text-post-${key}`).className = "edit-hidden";
+      document.getElementById(`save-button-${key}`).className = "";
+      document.getElementById(`delete-button-${key}`).className = "edit-hidden";
+      document.getElementById(`edit-button-${key}`).className = "edit-hidden";
+
+
+
+    })
+    $(`button[data-save=${key}]`).click(function() {
+      let newText = document.getElementById(`edit-${key}`).value;
+      document.getElementById(`text-post-${key}`).innerHTML = newText;
+
+      document.getElementById(`edit-${key}`).className = "edit-hidden";
+      document.getElementById(`text-post-${key}`).className = "";
+      document.getElementById(`save-button-${key}`).className = "edit-hidden";
+      document.getElementById(`delete-button-${key}`).className = "";
+      document.getElementById(`edit-button-${key}`).className = "";
+
+      database.ref(`posts/${USER_ID}/${key}`).update({
+        post: newText
+      });
+    })
+  }
+
+
+  // function setKeyToDelete(key) {
+  //   $(`button[data-key=${key}]`).click(function() {
+  //     let deletePost = confirm("Deseja apagar mesmo esse post?");
+  //     if (deletePost) {
+  //       $(`[data-div=${key}]`).remove();
+  //       $(".post-input").val("");
+  //       database.ref(`posts/${USER_ID}/${key}`).remove();
+  //     } else {
+  //       event.preventDefault();
+  //     }
+  //   });
+  // }
+
+  function setPublicOrPrivatePost(event) {
+    if (event.val() === 'public') {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  function setPublicOrPrivateTimeline(event) {
+    if (event.val() === 'public') {
+      $(".post-list").html("")
+      return database.ref("posts/" + USER_ID).orderByChild("privado").equalTo(false)
+    } else {
+      $(".post-list").html("")
+      return database.ref("posts/" + USER_ID)
+    }
+  }
+
+  function setKeyToLike(key) {
+    $(`input[data-like=${key}]`).click(function() {
       event.preventDefault();
-    }  
-
-  });
-}
-
-function setPublicOrPrivatePost(event) {
-  if (event.val() === 'public') {
-    return false
-  } else {
-    return true
+      let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
+      $(`input[data-like=${key}]`).html(likeNum);
+      database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
+    });
   }
-}
 
-function setPublicOrPrivateTimeline(event) {
-  if (event.val() === 'public') {
-    $(".post-list").html("")
-    return database.ref("posts/" + USER_ID).orderByChild("privado").equalTo(false)
-  } else {
-    $(".post-list").html("")
-    return database.ref("posts/" + USER_ID)
-  }
-}
-
-function setKeyToLike(key) {
-  $(`input[data-like=${key}]`).click(function() {
-    event.preventDefault();
-    let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
-    $(`input[data-like=${key}]`).html(likeNum);
-    database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
-  });
-}
-
-function setAside() {
-  database.ref("users/" + USER_ID)
-    .once('value')
-    .then(function(snapshot) {
-      const name = snapshot.val().username;
-      const email = snapshot.val().email;
-      const imgURL = snapshot.val().imgURL;
-      $(".aside-container").html(`
+  function setAside() {
+    database.ref("users/" + USER_ID)
+      .once('value')
+      .then(function(snapshot) {
+        const name = snapshot.val().username;
+        const email = snapshot.val().email;
+        const imgURL = snapshot.val().imgURL;
+        $(".aside-container").html(`
       <div class= "row mr-2">
               <figure class="background--gray rounded-circle profile-picture">
                 <img class="w-100 rounded-circle margin-0 " src="${imgURL}" alt="">
@@ -223,23 +219,23 @@ function setAside() {
               </div>
               </div>
             `)
+      })
+  }
+
+  function comment(username, text, key) {
+    database.ref('comments/' + key).push({
+      name: username,
+      comment: text,
     })
-}
+  }
 
-function comment(username, text, key) {
-  database.ref('comments/' + key).push({
-    name: username,
-    comment: text,
-  })
-}
-
-function addComment(key) {
-  database.ref("comments/" + key).once("value")
-    .then(function (snapshot) {
-      const temp = snapshot.val();
-      snapshot.forEach(function (childSnapshot) {
-        const commentKey = childSnapshot.key;
-        $(`div[data-area=${key}]`).append(`
+  function addComment(key) {
+    database.ref("comments/" + key).once("value")
+      .then(function(snapshot) {
+        const temp = snapshot.val();
+        snapshot.forEach(function(childSnapshot) {
+          const commentKey = childSnapshot.key;
+          $(`div[data-area=${key}]`).append(`
         <div class="container mt-4 p-4 bg-light">
           <div class="container">
             <div class="row">
@@ -256,32 +252,65 @@ function addComment(key) {
           </div>
         </div>
         `)
-      });
-    })
-}
+        });
+      })
+  }
 
-function setKeyToComment(key) {
-  let username = "";
-  database.ref("users/" + USER_ID).once('value')
-    .then(function (snapshot) {
-      username = snapshot.val().username;
-  });
-  $(`input[data-comment-btn=${key}]`).click(function () {
-    event.preventDefault();
-    $(`[data-div=${key}]`).append(`
+  function setKeyToComment(key) {
+    let username = "";
+    database.ref("users/" + USER_ID).once('value')
+      .then(function(snapshot) {
+        username = snapshot.val().username;
+      });
+    $(`input[data-comment-btn=${key}]`).click(function() {
+      event.preventDefault();
+      $(`[data-div=${key}]`).append(`
     <div id="comment-area" class="text-right">
       <hr>
       <textarea data-comment=${key} class="form-control border-0  mb-0 w-100 bg-light" rows="1"}"></textarea>
       <button type="button" data-submit=${key} class="btn-xs border-0 btn--green rounded">Comentar</button>
-    </div> 
+    </div>
     `)
-    $(`button[data-submit=${key}]`).click(function () {
-      let text = $(`textarea[data-comment=${key}]`).val()
-      comment(username, text, key);
-      $("#comment-area").remove();
-      $(`div[data-area=${key}]`).find("div").remove();
-      addComment(key);
+      $(`button[data-submit=${key}]`).click(function() {
+        let text = $(`textarea[data-comment=${key}]`).val()
+        comment(username, text, key);
+        $("#comment-area").remove();
+        $(`div[data-area=${key}]`).find("div").remove();
+        addComment(key);
+      })
     })
+
+  }
+
+  $('#insert-img').click(() => {
+
+    $('.file-select')[0].click()
+    $('.post-text-btn').hide()
+    $('.post-img-btn').removeClass("d-none")
   })
 
-}
+  $('.file-select').on('change', handleFileUploadChange);
+  $('.post-img-btn').on('click', handleFileUploadSubmit);
+
+  let selectedFile;
+
+  function handleFileUploadChange(e) {
+    selectedFile = e.target.files[0];
+    $('.post-input').html(selectedFile.name);
+  }
+
+  function handleFileUploadSubmit(e) {
+    e.preventDefault()
+    storageRef.child(`images/${USER_ID}/posts/${selectedFile.name}`)
+      .put(selectedFile)
+      .then(
+        storageRef.child(`images/${USER_ID}/posts/${selectedFile.name}`).getDownloadURL()
+        .then(snapshot => {
+          post(snapshot, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")))
+          $('.post-img-btn').addClass("d-none")
+          $('.post-text-btn').show()
+          $('.post-input').html('Pegue seu biscoito')
+          loadTimeline()
+        }))
+  }
+});
