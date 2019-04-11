@@ -3,14 +3,14 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 const storage = firebase.storage();
 const storageRef = storage.ref();
 
-$(document).ready(function () {
-  postInput()
+$(document).ready(function() {
+  postInput();
   setAside();
   setProfilePicture();
   setAsideFriends();
   loadTimeline();
   $('.select-public-private-timeline').change(() => {
-    $(".post-list").html("")
+    $('.post-list').html('')
     loadTimeline();
   })
 
@@ -20,14 +20,15 @@ $(document).ready(function () {
       .then((snapshot) => {
         const posts = snapshot.val();
         if (!posts) return;
-        $(".post-list").html("");
+        $('.post-list').html('');
         Object.keys(posts).forEach(key => {
-          database.ref("users/" + USER_ID)
+          database.ref(`users/${USER_ID}`)
             .once('value')
-            .then(function (snapshot) {
+            .then((snapshot) => {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
-              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL));
+              $('.post-list')
+                .append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL));
               setKeyToLike(key);
               setKeyToEdit(key);
               setKeyToDelete(key);
@@ -39,35 +40,36 @@ $(document).ready(function () {
   }
 
   function postInput() {
-    $(".post-input").click(() => {
-      $(".post-input").val("");
+    $('.post-input').click(() => {
+      $('.post-input').val('');
     })
   }
 
-  $(".post-text-btn").click(function (event) {
+  $('.post-text-btn').click((event) => {
     event.preventDefault();
-    let text = $(".post-input").val();
-    if (text === "") {
-      $(".post-text-btn").on(() => {
-        $(this).prop("disabled", true);
+    let text = $('.post-input').val();
+    if (text === '' || text === 'Pegue seu biscoito') {
+      $('.post-text-btn').on(() => {
+        $(this).prop('disabled', true);
       });
     } else {
-      $(".post-list").html("");
-      post(text, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")));
+      $('.post-list').html('');
+      post(text, database, USER_ID, setPublicOrPrivatePost($('.select-public-private')));
       loadTimeline();
-      $(".post-input").val('Pegue seu biscoito');
+      $('.post-input').val('Pegue seu biscoito');
       postInput();
-      $(".select-public-private").val("public");
+      $('.select-public-private').val('public');
     };
   });
 
   function post(text, database, USER_ID, private = false) {
-    database.ref('posts/' + USER_ID).push({
-      post: text,
-      likeCount: 0,
-      privado: private,
-      timestamp: firebase.database.ServerValue.TIMESTAMP
-    })
+    database.ref(`posts/${USER_ID}`)
+      .push({
+        post: text,
+        likeCount: 0,
+        privado: private,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      })
   }
 
   function templateStringPost(text, name, key, likeCount, imgURL) {
@@ -114,52 +116,37 @@ $(document).ready(function () {
   }
 
   function setKeyToEdit(key) {
-    $(`input[data-edit=${key}]`).click(function () {
-      $(`#edit-${key}`).removeClass("d-none");
-      $(`#text-post-${key}`).addClass("d-none");
-      $(`#save-button-${key}`).removeClass("d-none");
-      $(`#delete-button-${key}`).addClass("d-none");
-      $(`#edit-button-${key}`).addClass("d-none");
+    $(`input[data-edit=${key}]`).click(() => {
+      $(`#edit-${key}`).removeClass('d-none');
+      $(`#text-post-${key}`).addClass('d-none');
+      $(`#save-button-${key}`).removeClass('d-none');
+      $(`#delete-button-${key}`).addClass('d-none');
+      $(`#edit-button-${key}`).addClass('d-none');
     })
-    $(`button[data-save=${key}]`).click(function () {
+    $(`button[data-save=${key}]`).click(() => {
       let newText = document.getElementById(`edit-${key}`).value;
       document.getElementById(`text-post-${key}`).innerHTML = newText;
-      $(`#edit-${key}`).addClass("d-none");
-      $(`#text-post-${key}`).removeClass("d-none");
-      $(`#save-button-${key}`).addClass("d-none");
-      $(`#delete-button-${key}`).removeClass("d-none");
-      $(`#edit-button-${key}`).removeClass("d-none");
+      $(`#edit-${key}`).addClass('d-none');
+      $(`#text-post-${key}`).removeClass('d-none');
+      $(`#save-button-${key}`).addClass('d-none');
+      $(`#delete-button-${key}`).removeClass('d-none');
+      $(`#edit-button-${key}`).removeClass('d-none');
       database.ref(`posts/${USER_ID}/${key}`).update({
         post: newText
-      });
+      })
     })
   }
 
   function setKeyToDelete(key) {
-    $(`input[data-key=${key}]`).click(function () {
+    $(`input[data-key=${key}]`).click(function() {
       let deletePost = document.getElementById("delete-modal");
       if (deletePost) {
-        document.getElementById("delete-modal").addEventListener("click", function () {
+        $('#delete-modal').click(() => {
           $(`[data-div=${key}]`).remove();
-          $(".post-input").val("");
+          $('.post-input').val('');
           database.ref(`posts/${USER_ID}/${key}`).remove();
           database.ref(`comments/${key}`).remove();
-          $("#exampleModalCenter").modal('hide');
-        })
-      }
-    })
-  }
-
-  function setKeyToDelete(key) {
-    $(`input[data-key=${key}]`).click(function () {
-      let deletePost = document.getElementById("delete-modal");
-      if (deletePost) {
-        document.getElementById("delete-modal").addEventListener("click", function () {
-          $(`[data-div=${key}]`).remove();
-          $(".post-input").val("");
-          database.ref(`posts/${USER_ID}/${key}`).remove();
-          database.ref(`comments/${key}`).remove();
-          $("#exampleModalCenter").modal('hide');
+          $('#exampleModalCenter').modal('hide');
         })
       } else {
         event.preventDefault();
@@ -169,24 +156,24 @@ $(document).ready(function () {
 
   function setPublicOrPrivatePost(event) {
     if (event.val() === 'public') {
-      return false
+      return false;
     } else {
-      return true
-    }
+      return true;
+    };
   }
 
   function setPublicOrPrivateTimeline(event) {
     if (event.val() === 'public') {
-      $(".post-list").html("")
-      return database.ref("posts/" + USER_ID).orderByChild("privado").equalTo(false)
+      $('.post-list').html('');
+      return database.ref(`posts/${USER_ID}`).orderByChild('privado').equalTo(false);
     } else {
-      $(".post-list").html("")
-      return database.ref("posts/" + USER_ID)
+      $('.post-list').html('')
+      return database.ref(`posts/${USER_ID}`);
     }
   }
 
   function setKeyToLike(key) {
-    $(`input[data-like=${key}]`).click(function () {
+    $(`input[data-like=${key}]`).click(() => {
       event.preventDefault();
       let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
       $(`span[data-like-span=${key}]`).html(likeNum);
@@ -195,13 +182,13 @@ $(document).ready(function () {
   }
 
   function setAside() {
-    database.ref("users/" + USER_ID)
+    database.ref(`users/${USER_ID}`)
       .once('value')
-      .then(function (snapshot) {
+      .then((snapshot) => {
         const name = snapshot.val().username;
         const email = snapshot.val().email;
         const imgURL = snapshot.val().imgURL;
-        $(".aside-container").html(`
+        $('.aside-container').html(`
       <div class= "row mr-2">
               <figure class="background--gray rounded-circle profile-picture">
                 <img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">
@@ -215,31 +202,31 @@ $(document).ready(function () {
               </p>
               </div>
               </div>
-            `)
-      })
-  }
+            `);
+      });
+  };
 
   function setProfilePicture() {
     database.ref("users/" + USER_ID)
       .once('value')
-      .then(function (snapshot) {
+      .then((snapshot) => {
         const imgURL = snapshot.val().imgURL;
         $("#timeline-profile-picture").html(`<img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">`)
       })
   }
 
   function setAsideFriends() {
-    database.ref("friendship/" + USER_ID)
+    database.ref(`friendship/${USER_ID}`)
       .once('value')
-      .then(function (snapshot) {
+      .then((snapshot) => {
         const friends = snapshot.val();
         if (!friends) return;
-        Object.keys(friends).forEach(friendKey => {
-          database.ref("users/" + friends[friendKey].friendId)
+        Object.keys(friends).forEach((friendKey) => {
+          database.ref(`users/${friends[friendKey].friendId}`)
             .once('value')
-            .then(function (snapshot) {
+            .then((snapshot) => {
               let friend = snapshot.val();
-              $(".images-Friends").append(templateFriends(friend.imgURL, friend.username));
+              $('.images-Friends').append(templateFriends(friend.imgURL, friend.username));
             })
         })
       })
@@ -252,18 +239,18 @@ $(document).ready(function () {
   }
 
   function comment(username, text, key) {
-    database.ref('comments/' + key).push({
+    database.ref(`comments/${key}`).push({
       name: username,
       comment: text,
     })
   }
 
   function addComment(profilePic, key) {
-    $("#comment-area").remove();
-    database.ref("comments/" + key).once("value")
-      .then(function (snapshot) {
+    $('#comment-area').remove();
+    database.ref(`comments/${key}`).once('value')
+      .then((snapshot) => {
         const temp = snapshot.val();
-        snapshot.forEach(function (childSnapshot) {
+        snapshot.forEach(function(childSnapshot) {
           const commentKey = childSnapshot.key;
           $(`div[data-area=${key}]`).append(`
         <div class="container mt-4 p-4 bg-light">
@@ -287,14 +274,14 @@ $(document).ready(function () {
   }
 
   function setKeyToComment(key) {
-    let username = "";
-    let profilePic = "";
-    database.ref("users/" + USER_ID).once('value')
-      .then(function (snapshot) {
+    let username = '';
+    let profilePic = '';
+    database.ref(`users/${USER_ID}`).once('value')
+      .then((snapshot) => {
         username = snapshot.val().username;
         profilePic = snapshot.val().imgURL;
       });
-    $(`input[data-comment-btn=${key}]`).click(function () {
+    $(`input[data-comment-btn=${key}]`).click(() => {
       event.preventDefault();
       $(`[data-div=${key}]`).append(`
     <div id="comment-area" class="text-right">
@@ -303,20 +290,20 @@ $(document).ready(function () {
       <button type="button" data-submit=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white">Comentar</button>
     </div>
     `)
-      $(`button[data-submit=${key}]`).click(function () {
+      $(`button[data-submit=${key}]`).click(() => {
         let text = $(`textarea[data-comment=${key}]`).val()
         comment(username, text, key);
-        $("#comment-area").remove();
-        $(`div[data-area=${key}]`).find("div").remove();
+        $('#comment-area').remove();
+        $(`div[data-area=${key}]`).find('div').remove();
         addComment(profilePic, key);
       })
     })
   }
 
   $('#insert-img').click(() => {
-    $('.file-select')[0].click()
-    $('.post-text-btn').hide()
-    $('.post-img-btn').removeClass("d-none")
+    $('.file-select')[0].click();
+    $('.post-text-btn').hide();
+    $('.post-img-btn').removeClass('d-none');
   })
 
   $('.file-select').on('change', handleFileUploadChange);

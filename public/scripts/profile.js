@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
   setProfileDiv()
 
   $('.file-select').on('change', handleFileUploadChange);
@@ -25,9 +25,9 @@ $(document).ready(function () {
           .then(snapshot => {
             updatePhoto(snapshot);
             console.log()
-            database.ref("users/" + USER_ID)
+            database.ref(`users/${USER_ID}`)
               .once('value')
-              .then(function (snapshot) {
+              .then((snapshot) => {
                 const name = snapshot.val().username;
                 const imgURL = snapshot.val().imgURL;
                 const email = snapshot.val().email;
@@ -39,13 +39,13 @@ $(document).ready(function () {
   }
 
   function setProfileDiv() {
-    database.ref("users/" + USER_ID)
+    database.ref(`users/${USER_ID}`)
       .once('value')
-      .then(function (snapshot) {
+      .then(function(snapshot) {
         const name = snapshot.val().username;
         const imgURL = snapshot.val().imgURL;
         const email = snapshot.val().email;
-        $('.profile-info').html(templateProfile(name, email, imgURL))
+        $('.profile-info').html(templateProfile(name, email, imgURL));
       })
   }
 
