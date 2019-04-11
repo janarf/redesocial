@@ -19,15 +19,16 @@ $(document).ready(function() {
     setPublicOrPrivateTimeline($('.select-public-private-timeline'))
       .once('value')
       .then((snapshot) => {
-        const posts = snapshot.val()
+        const posts = snapshot.val();
         if (!posts) return;
-        $(".post-list").html("")
+        $(".post-list").html("");
         Object.keys(posts).forEach(key => {
           database.ref("users/" + USER_ID)
             .once('value')
             .then(function(snapshot) {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
+
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
               setKeyToLike(key)
               setKeyToEdit(key)
@@ -35,14 +36,15 @@ $(document).ready(function() {
               setKeyToComment(key)
               addComment(imgURL, key)
 
+
             })
         })
       })
   }
 
   function postInput() {
-    $(".post-input").click(function(event) {
-      $(".post-input").val("")
+    $(".post-input").click(() => {
+      $(".post-input").val("");
     })
   }
 
@@ -50,17 +52,16 @@ $(document).ready(function() {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
-      $(".post-text-btn").on(function() {
+      $(".post-text-btn").on(() => {
         $(this).prop("disabled", true);
       });
     } else {
-      $(".post-list").html("")
-
+      $(".post-list").html("");
       post(text, database, USER_ID, setPublicOrPrivatePost($(".select-public-private")));
-      loadTimeline()
+      loadTimeline();
       $(".post-input").val('Pegue seu biscoito');
-      postInput()
-      $(".select-public-private").val("public")
+      postInput();
+      $(".select-public-private").val("public");
     };
   });
 
@@ -82,34 +83,30 @@ $(document).ready(function() {
       </div>`
     } else {
       content = `<p data-text-id="${key}" id="text-post-${key}">${text}</p>`
-
     }
     return `
-
   <div data-div=${key} class="container mt-4 p-4 bg-light">
     <div class="container">
       <div class="row">
         <div class="col-2 col-md-1 m-0 p-0">
- 
+
           <figure class="background--gray rounded-circle profile-picture">
-          <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
+            <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
           </figure>
         </div>
         <div class="col-9 col-md-10 text--gray text--big">
-
         <div class="text-right mr-n5">
-        <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
-        <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
+          <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
+          <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
         </div>
           <p><strong>${name}</strong></p>
-
         ${content}
-     
           <input data-text-input="${key}" class="d-none" value=${text} id="edit-${key}">
         </div>
       </div>
     </div>
     <div>
+
       <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key}>${likeCount}</span>&nbsp;&nbsp
       <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
       <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
@@ -117,11 +114,10 @@ $(document).ready(function() {
     <hr>
     <div>
       <p class="text--gray"><strong>Comentários</strong></p>
+
     <div class="comment-list" data-area=${key}></div>
   </div>
-
 </div>`
-
 }
 
 function setKeyToEdit(key) {
@@ -181,6 +177,7 @@ function setKeyToDelete(key) {
 }
 
 
+
   function setKeyToEdit(key) {
     $(`input[data-edit=${key}]`).click(function() {
       document.getElementById(`edit-${key}`).className = "";
@@ -204,7 +201,9 @@ function setKeyToDelete(key) {
         post: newText
       });
     })
+
 } 
+
 
   function setKeyToDelete(key) {
     $(`input[data-key=${key}]`).click(function() {
@@ -407,4 +406,4 @@ function setKeyToDelete(key) {
           })
       });
   }
-});
+})
