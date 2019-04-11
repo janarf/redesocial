@@ -29,11 +29,11 @@ $(document).ready(function() {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
-
               setKeyToLike(key)
               setKeyToEdit(key)
               setKeyToDelete(key)
               setKeyToComment(key)
+              addComment(imgURL, key)
 
             })
         })
@@ -90,9 +90,7 @@ $(document).ready(function() {
     <div class="container">
       <div class="row">
         <div class="col-2 col-md-1 m-0 p-0">
-
-
-    
+ 
           <figure class="background--gray rounded-circle profile-picture">
           <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
           </figure>
@@ -103,31 +101,22 @@ $(document).ready(function() {
         <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
         <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
         </div>
-        
           <p><strong>${name}</strong></p>
-
-
-        
 
         ${content}
      
-        <input data-text-input="${key}" class="d-none" value=${text} id="edit-${key}">
-
-        
+          <input data-text-input="${key}" class="d-none" value=${text} id="edit-${key}">
         </div>
       </div>
     </div>
-
-   
     <div>
-    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
-    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
-
-
-  <hr>
-  <div>
-    <p class="text--gray"><strong>Comentários</strong></p>
+      <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key}>${likeCount}</span>&nbsp;&nbsp
+      <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
+      <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
+    </div>
+    <hr>
+    <div>
+      <p class="text--gray"><strong>Comentários</strong></p>
     <div class="comment-list" data-area=${key}></div>
   </div>
 
@@ -174,7 +163,6 @@ function setKeyToEdit(key) {
   
 }
 
-
 function setKeyToDelete(key) {
   $(`input[data-key=${key}]`).click(function () {
     let deletePost = document.getElementById("delete-modal");
@@ -188,6 +176,9 @@ function setKeyToDelete(key) {
         database.ref(`comments/${key}`).remove();
         $("#exampleModalCenter").modal('hide');
       })
+    }
+  })
+}
 
 
   function setKeyToEdit(key) {
@@ -213,9 +204,7 @@ function setKeyToDelete(key) {
         post: newText
       });
     })
-
-  
-
+} 
 
   function setKeyToDelete(key) {
     $(`input[data-key=${key}]`).click(function() {
@@ -234,12 +223,8 @@ function setKeyToDelete(key) {
       } else {
         event.preventDefault();
       }
-
-
     });
   }
-
-
 
   function setPublicOrPrivatePost(event) {
     if (event.val() === 'public') {
@@ -263,7 +248,7 @@ function setKeyToDelete(key) {
     $(`input[data-like=${key}]`).click(function() {
       event.preventDefault();
       let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
-      $(`input[data-like=${key}]`).html(likeNum);
+      $(`span[data-like-span=${key}]`).html(likeNum);
       database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
     });
   }
@@ -294,7 +279,6 @@ function setKeyToDelete(key) {
       })
   }
 
-
   function setProfilePicture() {
     database.ref("users/" + USER_ID)
       .once('value')
@@ -305,7 +289,6 @@ function setKeyToDelete(key) {
   }
 
   function setAsideFriends() {
-
     database.ref("friendship/" + USER_ID)
       .once('value')
       .then(function(snapshot) {
@@ -329,16 +312,15 @@ function setKeyToDelete(key) {
   }
 
 
-  function comment(username, imgURL, text, key) {
-
+  function comment(username, text, key) {
     database.ref('comments/' + key).push({
       name: username,
-      profilePic: imgURL,
       comment: text,
     })
   }
 
-  function addComment(key) {
+  function addComment(profilePic, key) {
+    $("#comment-area").remove();
     database.ref("comments/" + key).once("value")
       .then(function(snapshot) {
         const temp = snapshot.val();
@@ -350,7 +332,7 @@ function setKeyToDelete(key) {
             <div class="row">
               <div class="col-2 col-md-1 m-0 p-0">
                 <figure class="background--gray rounded-circle profile-picture">
-                  <img class="w-100 rounded-circle margin-0 profile-picture" src="${temp[commentKey].profilePic}" alt="">
+                  <img class="w-100 rounded-circle margin-0 profile-picture" src="${profilePic}" alt="">
                 </figure>
               </div>
               <div class="col-9 col-md-10 float-right text--gray text--big">
@@ -384,10 +366,10 @@ function setKeyToDelete(key) {
     `)
       $(`button[data-submit=${key}]`).click(function() {
         let text = $(`textarea[data-comment=${key}]`).val()
-        comment(username, profilePic, text, key);
+        comment(username, text, key);
         $("#comment-area").remove();
         $(`div[data-area=${key}]`).find("div").remove();
-        addComment(key);
+        addComment(profilePic, key);
       })
     })
   }
