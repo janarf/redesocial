@@ -106,17 +106,13 @@ form {
 
 .form-group__envelope--white,
 .form-group__envelope--white:focus {
-  background-image: url(../img/icons/emailwhite.png);
-  background-repeat: no-repeat;
-  background-position: 100%;
+  background: url(../img/icons/emailwhite.png) no-repeat 100%;
   background-size: 1rem;
 }
 
 .form-group__lock--white,
 .form-group__lock--white:focus {
-  background-image: url(../img/icons/lock_white.png);
-  background-repeat: no-repeat;
-  background-position: 100%;
+  background: url(../img/icons/lock_white.png) no-repeat 100%;
   background-size: 1rem;
 }
 
@@ -160,8 +156,9 @@ select:focus {
   outline: 0;
 }
 
-button,
+
+/* button,
 button:active,
 button:focus {
   outline: 0 !important;
-}
+} */

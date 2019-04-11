@@ -118,6 +118,7 @@ $(document).ready(function() {
       </div>
     </div>
 
+
    
     <div>
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
@@ -263,7 +264,7 @@ function setKeyToDelete(key) {
     $(`input[data-like=${key}]`).click(function() {
       event.preventDefault();
       let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
-      $(`input[data-like=${key}]`).html(likeNum);
+      $(`span[data-like-span=${key}]`).html(likeNum);
       database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
     });
   }
@@ -379,7 +380,7 @@ function setKeyToDelete(key) {
     <div id="comment-area" class="text-right">
       <hr>
       <textarea data-comment=${key} class="form-control border-0  mb-0 w-100 bg-light" rows="1" placeholder="Dê um biscoito"></textarea>
-      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green rounded">Comentar</button>
+      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white">Comentar</button>
     </div>
     `)
       $(`button[data-submit=${key}]`).click(function() {
