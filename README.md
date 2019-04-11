@@ -40,4 +40,26 @@ As reações foram positivas, sem críticas com relação a cores ou design.
 ## Conclusão dos testes de usuário feitos no HTML
 Após a realização dos testes iniciais do produto no HTML, foram identificadas algumas falhas com relação às imagens dos perfis nos comentários e na página Amigas. As correções foram feitas antes da entrega do trabalho final.
 
+## Funcionalidades implementadas
+ * Login com Firebase;
+ * Validações: usuário repetido, e-mail válido;
+ * Autenticação com o Google e e-mail;
+ * Texto secreto no input de senha;
+ * Mensagens de erro na validação;
+ * Publicar um post de texto;
+ * Mostrar timeline de posts;
+ * Dar likes em posts;
+ * Exibir contador de likes;
+ * Apagar e editar posts in place;
+ * Filtrar posts públicos e privados;
+ * Postar fotos;
+ * Comentar e exibir comentários em posts;
+ * Adicionar amigos à lista exibida na timeline;
+ * Sugestões de amizade;
+ * Busca poe e-mail de usuários;
+ * Página de perfil
+ * Editar foto do perfil;
+ 
+ ## Ferramentas
+ Bootstrap4, HTML, FirebaseHosting, Firebase Storage, Firebase Realtime Database, Firebase Authentication, Javascript ES6, JQuery, CSS.
 
