@@ -1,28 +1,31 @@
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="shortcut icon" type="image/x-icon" href="../img/cookie.ico">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js " integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo " crossorigin="anonymous "></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js " integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 " crossorigin="anonymous "></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js " integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM " crossorigin="anonymous "></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+    crossorigin="anonymous "></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+    crossorigin="anonymous "></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+    crossorigin="anonymous "></script>
   <script src="https://www.gstatic.com/firebasejs/5.8.4/firebase.js"></script>
-
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-app.js "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-database.js "></script>
   <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase-storage.js"></script>
   <link rel="stylesheet" href="../style/style.css">
-
   <script src="../scripts/config.js "></script>
-
   <title>
     Biscoiteras
   </title>
 </head>
-
 <body class="background--light-green">
   <nav class="navbar navbar-expand-lg navbar-dark static-top background--purple d-flex">
     <div class="container background--purple row m-0 p-0">
@@ -31,15 +34,15 @@
           <img src="../img/cookie.png" class="w-100 p-2" alt="">
         </div>
         <a class="navbar-brand" href="#" id="timeline-link">
-              Biscoiteras
-            </a>
+          Biscoiteras
+        </a>
       </figure>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon background--purple"></span>
-          </button>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon background--purple"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto ">
-
           <li class="nav-item">
             <a class="nav-link" href="#" id="profile">Perfil</a>
           </li>
@@ -62,13 +65,11 @@
         <hr>
         <div class="text--gray d-flex justify-content-center">
           <p class="mx-auto">Amigas</p>
-
         </div>
         <section class="container  d-flex justify-content-center ">
           <div class="images-Friends flex-wrap"></div>
         </section>
       </aside>
-
       <div class="col-lg-8">
         <div class="container bg-light mt-4 p-4">
           <div class="row">
@@ -78,65 +79,61 @@
             </div>
             <div class="col-9 pl-0 text--gray " id="input-post">
               <form class="border border-light mb-0 ">
-                <textarea class="form-control post-input border-0  mb-0 w-100 bg-light" rows="5" id="comment">Pegue seu biscoito</textarea>
+                <textarea class="form-control post-input border-0  mb-0 w-100 bg-light" rows="5"
+                  id="comment">Pegue seu biscoito</textarea>
             </div>
           </div>
           <hr>
-
           <div class="input-group">
             <div class="">
               <select class=" select-public-private border-0 bg-transparent text--gray" id="inputGroupSelect04">
-          <option class = "" value="public" selected>Público</option>
-          <option class = "" value="private">Privado</option>
-        </select>
+                <option class="" value="public" selected>Público</option>
+                <option class="" value="private">Privado</option>
+              </select>
             </div>
           </div>
           <div class="d-flex row justify-content-end align-items-center px-5">
-
             <figure class="picture m-3" id="insert-img">
               <input type="file" class="file-select d-none" accept="image/*" id="inputGroupFile02">
-
               <img src="../img/icons/picturegreen.png" alt="" class="w-100 ">
             </figure>
             <button class="post-text-btn btn-xs border-0 btn--green font-weight-bold rounded text-white">Postar</button>
-            <button class="post-img-btn btn-xs border-0 btn--green font-weight-bold rounded text-white d-none">Postar</button>
-
+            <button
+              class="post-img-btn btn-xs border-0 btn--green font-weight-bold rounded text-white d-none">Postar</button>
           </div>
           </form>
         </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Você deseja mesmo excluir este post?
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="delete-modal">Excluir</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Você deseja mesmo excluir este post?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="delete-modal">Excluir</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="container ">
           <div class="row justify-content-end pt-1">
             <p class="mb-0 pb-0 text--gray">Ver timeline:</p>
-            <select class="select-public-private-timeline border-0 bg-transparent my-0 py-0 text--gray" id="inputGroupSelect04">
-        <option class = "" value="public" selected>Pública</option>
-        <option class = "" value="private">Privada</option>
-      </select>
+            <select class="select-public-private-timeline border-0 bg-transparent my-0 py-0 text--gray"
+              id="inputGroupSelect04">
+              <option class="" value="public" selected>Pública</option>
+              <option class="" value="private">Privada</option>
+            </select>
           </div>
         </div>
-
         <div class="post-list"></div>
         <div class="comment-list"></div>
         <div></div>
@@ -148,7 +145,5 @@
   <script src="../scripts/timeline.js"></script>
   <script src="../scripts/post.js"></script>
   <script src="../scripts/linksnavbar.js"></script>
-
 </body>
-
 </html>
