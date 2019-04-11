@@ -1,7 +1,7 @@
 // Get a reference to the database service
 const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 const storage = firebase.storage();
-const storageRef = storage.ref()
+const storageRef = storage.ref();
 
 
 $(document).ready(function() {
@@ -29,12 +29,12 @@ $(document).ready(function() {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
 
-              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
-              setKeyToLike(key)
-              setKeyToEdit(key)
-              setKeyToDelete(key)
-              setKeyToComment(key)
-              addComment(imgURL, key)
+              $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL));
+              setKeyToLike(key);
+              setKeyToEdit(key);
+              setKeyToDelete(key);
+              setKeyToComment(key);
+              addComment(imgURL, key);
 
 
             })
@@ -106,103 +106,58 @@ $(document).ready(function() {
       </div>
     </div>
     <div>
-
       <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key}>${likeCount}</span>&nbsp;&nbsp
-      <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-      <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
+      <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weight= 25>&nbsp;&nbsp
+      <button type="button" data-save=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white d-none " id="save-button-${key}" > Salvar </button>
     </div>
     <hr>
     <div>
       <p class="text--gray"><strong>Comentários</strong></p>
-
     <div class="comment-list" data-area=${key}></div>
   </div>
 </div>`
-}
-
-function setKeyToEdit(key) {
-  $(`input[data-edit=${key}]`).click(function (){
-    $(`#edit-${key}`).removeClass("d-none");
-    $(`#text-post-${key}`).addClass("d-none");
-    $(`#save-button-${key}`).removeClass("d-none");
-    $(`#delete-button-${key}`).addClass("d-none");
-    $(`#edit-button-${key}`).addClass("d-none");
-
-    // document.getElementById(`edit-${key}`).className = "";
-    // document.getElementById(`text-post-${key}`).className = "edit-hidden";
-    // document.getElementById(`save-button-${key}`).className = "";
-    // document.getElementById(`delete-button-${key}`).className = "edit-hidden";
-    // document.getElementById(`edit-button-${key}`).className = "edit-hidden";
-   
-  })
-  $(`button[data-save=${key}]`).click(function (){
-    let newText = document.getElementById(`edit-${key}`).value;
-    document.getElementById(`text-post-${key}`).innerHTML = newText;
-
-    $(`#edit-${key}`).addClass("d-none");
-    $(`#text-post-${key}`).removeClass("d-none");
-    $(`#save-button-${key}`).addClass("d-none");
-    $(`#delete-button-${key}`).removeClass("d-none");
-    $(`#edit-button-${key}`).removeClass("d-none");
-
-
-    // document.getElementById(`edit-${key}`).className = "edit-hidden";
-    // document.getElementById(`text-post-${key}`).className = "";
-    // document.getElementById(`save-button-${key}`).className = "edit-hidden";
-    // document.getElementById(`delete-button-${key}`).className = "";
-    // document.getElementById(`edit-button-${key}`).className = "";
-
-    database.ref(`posts/${USER_ID}/${key}`).update({
-      post: newText
-    });   
-  })
-  
-}
-
-function setKeyToDelete(key) {
-  $(`input[data-key=${key}]`).click(function () {
-    let deletePost = document.getElementById("delete-modal");
-    
-    if(deletePost){
-      document.getElementById("delete-modal").addEventListener("click", function(){
-        $(`[data-div=${key}]`).remove();
-        $(".post-input").val("");
-  
-        database.ref(`posts/${USER_ID}/${key}`).remove();
-        database.ref(`comments/${key}`).remove();
-        $("#exampleModalCenter").modal('hide');
-      })
-    }
-  })
-}
-
-
+  }
 
   function setKeyToEdit(key) {
     $(`input[data-edit=${key}]`).click(function() {
-      document.getElementById(`edit-${key}`).className = "";
-      document.getElementById(`text-post-${key}`).className = "edit-hidden";
-      document.getElementById(`save-button-${key}`).className = "";
-      document.getElementById(`delete-button-${key}`).className = "edit-hidden";
-      document.getElementById(`edit-button-${key}`).className = "edit-hidden";
-
+      $(`#edit-${key}`).removeClass("d-none");
+      $(`#text-post-${key}`).addClass("d-none");
+      $(`#save-button-${key}`).removeClass("d-none");
+      $(`#delete-button-${key}`).addClass("d-none");
+      $(`#edit-button-${key}`).addClass("d-none");
     })
     $(`button[data-save=${key}]`).click(function() {
       let newText = document.getElementById(`edit-${key}`).value;
       document.getElementById(`text-post-${key}`).innerHTML = newText;
-
-      document.getElementById(`edit-${key}`).className = "edit-hidden";
-      document.getElementById(`text-post-${key}`).className = "";
-      document.getElementById(`save-button-${key}`).className = "edit-hidden";
-      document.getElementById(`delete-button-${key}`).className = "";
-      document.getElementById(`edit-button-${key}`).className = "";
-
+      $(`#edit-${key}`).addClass("d-none");
+      $(`#text-post-${key}`).removeClass("d-none");
+      $(`#save-button-${key}`).addClass("d-none");
+      $(`#delete-button-${key}`).removeClass("d-none");
+      $(`#edit-button-${key}`).removeClass("d-none");
       database.ref(`posts/${USER_ID}/${key}`).update({
         post: newText
       });
     })
+  }
 
-} 
+  function setKeyToDelete(key) {
+    $(`input[data-key=${key}]`).click(function() {
+      let deletePost = document.getElementById("delete-modal");
+      if (deletePost) {
+        document.getElementById("delete-modal").addEventListener("click", function() {
+          $(`[data-div=${key}]`).remove();
+          $(".post-input").val("");
+          database.ref(`posts/${USER_ID}/${key}`).remove();
+          database.ref(`comments/${key}`).remove();
+          $("#exampleModalCenter").modal('hide');
+        })
+      }
+    })
+  }
+
+
+
+
 
 
   function setKeyToDelete(key) {
