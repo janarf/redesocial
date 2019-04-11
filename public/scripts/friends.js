@@ -11,13 +11,13 @@ $(document).ready(() => {
             const users = snapshot.val();
             snapshot.forEach(function (childSnapshot) {
                 const key = childSnapshot.key;
-                suggestion(users[key].username, key);
-                friendList(users[key].username, key);
+                suggestion(users[key].username, users[key].imgURL, key);
+                friendList(users[key].username, users[key].imgURL, key);
             });
         })
 });
 
-function suggestion(name, key) {
+function suggestion(name, profilePic, key) {
     database.ref("friendship/" + USER_ID).orderByChild("friendId").equalTo(key).once("value", snapshot => {
         if (!snapshot.exists()) {
             if (key !== USER_ID) {
@@ -27,7 +27,7 @@ function suggestion(name, key) {
                         <div class="row align-items-center justify-content-around">
                             <div class="col-2 p-2 ml-n4">
                                 <figure class="background--gray rounded-circle profile-picture">
-                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                    <img class="w-100 rounded-circle margin-0" src="${profilePic}" alt="">
                                 </figure>
                             </div>
                             <div class="col-6 ml-n4">
@@ -52,7 +52,7 @@ function suggestion(name, key) {
     });
 }
 
-function friendList(name, key) {
+function friendList(name, profilePic, key) {
     database.ref("friendship/" + USER_ID).orderByChild("friendId").equalTo(key).once("value", snapshot => {
         if (snapshot.exists()) {
             if (key !== USER_ID) {
@@ -62,7 +62,7 @@ function friendList(name, key) {
                         <div class="row align-items-center justify-content-around">
                             <div class="col-2 p-2 ml-n4">
                                 <figure class="background--gray rounded-circle profile-picture">
-                                    <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                    <img class="w-100 rounded-circle margin-0 profile-picture" src="${profilePic}" alt="">
                                 </figure>
                             </div>
                             <div class="col-6 ml-n4">
@@ -112,7 +112,7 @@ function search(email) {
                                     <div class="row align-items-center justify-content-around">
                                         <div class="col-2 p-2 ml-n4">
                                             <figure class="background--gray rounded-circle profile-picture">
-                                                <img class="w-100 rounded-circle margin-0" src="../img/icons/girl.png" alt="">
+                                                <img class="w-100 rounded-circle margin-0" src="${temp[friendKey].imgURL}" alt="">
                                             </figure>
                                         </div>
                                         <div class="col-6 ml-n4">
