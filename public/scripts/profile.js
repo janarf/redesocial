@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   setProfileDiv()
 
   $('.file-select').on('change', handleFileUploadChange);
@@ -18,7 +18,6 @@ $(document).ready(function() {
         snapshot.ref.getDownloadURL().then(
           snapshot => {
             updatePhoto(snapshot);
-
           }
         )
         storageRef.child(`images/${USER_ID}/profilePicture`)
@@ -28,7 +27,7 @@ $(document).ready(function() {
             console.log()
             database.ref("users/" + USER_ID)
               .once('value')
-              .then(function(snapshot) {
+              .then(function (snapshot) {
                 const name = snapshot.val().username;
                 const imgURL = snapshot.val().imgURL;
                 const email = snapshot.val().email;
@@ -39,14 +38,10 @@ $(document).ready(function() {
     $('.custom-file-label').html('Escolher foto');
   }
 
-
-
-
   function setProfileDiv() {
     database.ref("users/" + USER_ID)
       .once('value')
-      .then(function(snapshot) {
-
+      .then(function (snapshot) {
         const name = snapshot.val().username;
         const imgURL = snapshot.val().imgURL;
         const email = snapshot.val().email;
@@ -63,7 +58,7 @@ $(document).ready(function() {
           <p><small>${email}</small></p>
           </div>`
   }
-})
+});
 
 function updatePhoto(newImg) {
   database.ref(`users/${USER_ID}`).update({

@@ -5,7 +5,6 @@ document.getElementById("timeline-link").addEventListener("click", function () {
 })
 
 $(document).ready(() => {
-
     database.ref("users").once("value")
         .then(function (snapshot) {
             const users = snapshot.val();
@@ -95,7 +94,6 @@ function friendList(name, profilePic, key) {
 }
 
 function search(email) {
-    // database.ref("users").orderByChild("email").equalTo(email).once("value", snapshot => {
     database.ref("users").once("value")
         .then(function (snapshot) {
             const temp = snapshot.val();

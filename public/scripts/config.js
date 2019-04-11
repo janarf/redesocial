@@ -6,6 +6,6 @@ const config = {
   storageBucket: "redesocial-18fde.appspot.com",
   messagingSenderId: "533368476703"
 };
-firebase.initializeApp(config);
 
+firebase.initializeApp(config);
 const database = firebase.database();

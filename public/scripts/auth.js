@@ -6,20 +6,16 @@ $(document).ready(() => {
     let name = $('#input-name').val();
     let email = $('#input-email').val();
     let password = $('#input-password').val();
-
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((response) => {
         response.user.updateProfile({ displayName: name });
         setUser(response, database, name, email);
-
-
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         errorMessageSignUp(error);
       })
   });
-
 
   $('#sign-in-btn').on('click', (e) => {
     e.preventDefault();
@@ -29,13 +25,13 @@ $(document).ready(() => {
       .then((response) => {
         window.location = `../pages/timeline.html?id=${response.user.uid}`;
       })
-      .catch(function(error) {
+      .catch(function (error) {
         errorMessageSignIn(error);
       })
   });
 
-  firebase.auth().signOut().then(function() {})
-    .catch(function(error) {
+  firebase.auth().signOut().then(function () { })
+    .catch(function (error) {
       alert(`Erro desconhecido: ${error.code}: ${error.message}`);
     });
 

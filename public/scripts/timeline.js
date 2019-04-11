@@ -3,8 +3,7 @@ const USER_ID = window.location.search.match(/\?id=(.*)/)[1];
 const storage = firebase.storage();
 const storageRef = storage.ref();
 
-
-$(document).ready(function() {
+$(document).ready(function () {
   postInput()
   setAside();
   setProfilePicture();
@@ -25,18 +24,15 @@ $(document).ready(function() {
         Object.keys(posts).forEach(key => {
           database.ref("users/" + USER_ID)
             .once('value')
-            .then(function(snapshot) {
+            .then(function (snapshot) {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
-
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL));
               setKeyToLike(key);
               setKeyToEdit(key);
               setKeyToDelete(key);
               setKeyToComment(key);
               addComment(imgURL, key);
-
-
             })
         })
       })
@@ -48,7 +44,7 @@ $(document).ready(function() {
     })
   }
 
-  $(".post-text-btn").click(function(event) {
+  $(".post-text-btn").click(function (event) {
     event.preventDefault();
     let text = $(".post-input").val();
     if (text === "") {
@@ -89,7 +85,6 @@ $(document).ready(function() {
     <div class="container">
       <div class="row">
         <div class="col-2 col-md-1 m-0 p-0">
-
           <figure class="background--gray rounded-circle profile-picture">
             <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
           </figure>
@@ -119,14 +114,14 @@ $(document).ready(function() {
   }
 
   function setKeyToEdit(key) {
-    $(`input[data-edit=${key}]`).click(function() {
+    $(`input[data-edit=${key}]`).click(function () {
       $(`#edit-${key}`).removeClass("d-none");
       $(`#text-post-${key}`).addClass("d-none");
       $(`#save-button-${key}`).removeClass("d-none");
       $(`#delete-button-${key}`).addClass("d-none");
       $(`#edit-button-${key}`).addClass("d-none");
     })
-    $(`button[data-save=${key}]`).click(function() {
+    $(`button[data-save=${key}]`).click(function () {
       let newText = document.getElementById(`edit-${key}`).value;
       document.getElementById(`text-post-${key}`).innerHTML = newText;
       $(`#edit-${key}`).addClass("d-none");
@@ -141,10 +136,10 @@ $(document).ready(function() {
   }
 
   function setKeyToDelete(key) {
-    $(`input[data-key=${key}]`).click(function() {
+    $(`input[data-key=${key}]`).click(function () {
       let deletePost = document.getElementById("delete-modal");
       if (deletePost) {
-        document.getElementById("delete-modal").addEventListener("click", function() {
+        document.getElementById("delete-modal").addEventListener("click", function () {
           $(`[data-div=${key}]`).remove();
           $(".post-input").val("");
           database.ref(`posts/${USER_ID}/${key}`).remove();
@@ -155,25 +150,17 @@ $(document).ready(function() {
     })
   }
 
-
-
-
-
-
   function setKeyToDelete(key) {
-    $(`input[data-key=${key}]`).click(function() {
+    $(`input[data-key=${key}]`).click(function () {
       let deletePost = document.getElementById("delete-modal");
-
       if (deletePost) {
-        document.getElementById("delete-modal").addEventListener("click", function() {
+        document.getElementById("delete-modal").addEventListener("click", function () {
           $(`[data-div=${key}]`).remove();
           $(".post-input").val("");
-
           database.ref(`posts/${USER_ID}/${key}`).remove();
           database.ref(`comments/${key}`).remove();
           $("#exampleModalCenter").modal('hide');
         })
-
       } else {
         event.preventDefault();
       }
@@ -199,7 +186,7 @@ $(document).ready(function() {
   }
 
   function setKeyToLike(key) {
-    $(`input[data-like=${key}]`).click(function() {
+    $(`input[data-like=${key}]`).click(function () {
       event.preventDefault();
       let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
       $(`span[data-like-span=${key}]`).html(likeNum);
@@ -210,7 +197,7 @@ $(document).ready(function() {
   function setAside() {
     database.ref("users/" + USER_ID)
       .once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         const name = snapshot.val().username;
         const email = snapshot.val().email;
         const imgURL = snapshot.val().imgURL;
@@ -218,7 +205,6 @@ $(document).ready(function() {
       <div class= "row mr-2">
               <figure class="background--gray rounded-circle profile-picture">
                 <img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">
-
               </figure>
               <div class="text--gray pl-2">
               <p class="mb-0 mt-2">
@@ -236,7 +222,7 @@ $(document).ready(function() {
   function setProfilePicture() {
     database.ref("users/" + USER_ID)
       .once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         const imgURL = snapshot.val().imgURL;
         $("#timeline-profile-picture").html(`<img class="w-100 rounded-circle margin-0 profile-picture" src="${imgURL}" alt="">`)
       })
@@ -245,13 +231,13 @@ $(document).ready(function() {
   function setAsideFriends() {
     database.ref("friendship/" + USER_ID)
       .once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         const friends = snapshot.val();
         if (!friends) return;
         Object.keys(friends).forEach(friendKey => {
           database.ref("users/" + friends[friendKey].friendId)
             .once('value')
-            .then(function(snapshot) {
+            .then(function (snapshot) {
               let friend = snapshot.val();
               $(".images-Friends").append(templateFriends(friend.imgURL, friend.username));
             })
@@ -265,7 +251,6 @@ $(document).ready(function() {
   `
   }
 
-
   function comment(username, text, key) {
     database.ref('comments/' + key).push({
       name: username,
@@ -276,9 +261,9 @@ $(document).ready(function() {
   function addComment(profilePic, key) {
     $("#comment-area").remove();
     database.ref("comments/" + key).once("value")
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         const temp = snapshot.val();
-        snapshot.forEach(function(childSnapshot) {
+        snapshot.forEach(function (childSnapshot) {
           const commentKey = childSnapshot.key;
           $(`div[data-area=${key}]`).append(`
         <div class="container mt-4 p-4 bg-light">
@@ -305,11 +290,11 @@ $(document).ready(function() {
     let username = "";
     let profilePic = "";
     database.ref("users/" + USER_ID).once('value')
-      .then(function(snapshot) {
+      .then(function (snapshot) {
         username = snapshot.val().username;
         profilePic = snapshot.val().imgURL;
       });
-    $(`input[data-comment-btn=${key}]`).click(function() {
+    $(`input[data-comment-btn=${key}]`).click(function () {
       event.preventDefault();
       $(`[data-div=${key}]`).append(`
     <div id="comment-area" class="text-right">
@@ -318,7 +303,7 @@ $(document).ready(function() {
       <button type="button" data-submit=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white">Comentar</button>
     </div>
     `)
-      $(`button[data-submit=${key}]`).click(function() {
+      $(`button[data-submit=${key}]`).click(function () {
         let text = $(`textarea[data-comment=${key}]`).val()
         comment(username, text, key);
         $("#comment-area").remove();
@@ -329,7 +314,6 @@ $(document).ready(function() {
   }
 
   $('#insert-img').click(() => {
-
     $('.file-select')[0].click()
     $('.post-text-btn').hide()
     $('.post-img-btn').removeClass("d-none")
@@ -337,7 +321,6 @@ $(document).ready(function() {
 
   $('.file-select').on('change', handleFileUploadChange);
   $('.post-img-btn').on('click', handleFileUploadSubmit);
-
   let selectedFile;
 
   function handleFileUploadChange(e) {
@@ -347,7 +330,6 @@ $(document).ready(function() {
 
   function handleFileUploadSubmit(e) {
     e.preventDefault()
-
     storageRef.child(`images/${USER_ID}/posts/${selectedFile.name}`)
       .put(selectedFile)
       .then((file) => {

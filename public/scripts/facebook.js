@@ -1,13 +1,12 @@
 $(document).ready(() => {
-  $("#sign-in-fb-btn").click(function() {
+  $("#sign-in-fb-btn").click(function () {
     // e.preventDefault()
     let provider = new firebase.auth.FacebookAuthProvider();
-
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+    firebase.auth().signInWithPopup(provider).then(function (result) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-      setUser(result, database, result.user.displayName, result.user.photoURL)
+      setUser(result, database, result.user.displayName, result.user.photoURL);
       window.location = `../pages/timeline.html?id=${result.user.uid}`
-    }).catch(function(error) {
+    }).catch(function (error) {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
@@ -17,5 +16,5 @@ $(document).ready(() => {
       let credential = error.credential;
       // ...
     });
-  })
+  });
 });
