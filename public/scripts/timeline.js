@@ -29,9 +29,10 @@ $(document).ready(function() {
               const name = snapshot.val().username;
               const imgURL = snapshot.val().imgURL;
               $(".post-list").append(templateStringPost(posts[key].post, name, key, posts[key].likeCount, imgURL))
-              setKeyToDelete(key)
+
               setKeyToLike(key)
               setKeyToEdit(key)
+              setKeyToDelete(key)
               setKeyToComment(key)
 
             })
@@ -85,43 +86,110 @@ $(document).ready(function() {
     }
     return `
 
-    <div data-div=${key} class="container mt-4 p-4 bg-light">
-  <div class="container">
-    <div class="row">
-      <div class="col-2 col-md-1 m-0 p-0">
+  <div data-div=${key} class="container mt-4 p-4 bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-2 col-md-1 m-0 p-0">
+
+
+    
           <figure class="background--gray rounded-circle profile-picture">
-            <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
+          <img class="w-100 rounded-circle margin-0  profile-picture" src="${imgURL}" alt="">
           </figure>
         </div>
         <div class="col-9 col-md-10 text--gray text--big">
-        <p><strong>${name}</strong></p>
 
-        <div class="float-right mr-n5 mt-n5">
+        <div class="text-right mr-n5">
         <input data-edit="${key}" type="image"  id="edit-button-${key}" src="../img/icons/pencil-edit-button.png" placeholder="Editar" height=20 weigth=20>&nbsp;&nbsp
         <input data-key="${key}" type="image" id="delete-button-${key}"  data-toggle="modal" data-target="#exampleModalCenter" src="../img/icons/rubbish-bin.png" placeholder="Excluir" height=20 weigth=20>&nbsp;&nbsp
         </div>
+        
+          <p><strong>${name}</strong></p>
+
+
+        
 
         ${content}
+     
+        <input data-text-input="${key}" class="d-none" value=${text} id="edit-${key}">
 
-        <input data-text-input="${key}" class="edit-hidden" value=${text} id="edit-${key}">
+        
         </div>
       </div>
     </div>
-<div class="p-2 pl-5">
-    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key} class="text--gray">${likeCount}</span>&nbsp;&nbsp
-    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weight= 25>&nbsp;&nbsp
-    <button type="button" data-save=${key} class =" edit-hidden btn-xs border-0 btn--green font-weight-bold rounded text-white " id="save-button-${key}"> Salvar </button>
-</div>
+
+
+   
+    <div>
+    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
+    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
+    <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
+
 
   <hr>
   <div>
     <p class="text--gray"><strong>Comentários</strong></p>
     <div class="comment-list" data-area=${key}></div>
   </div>
-</div>
-</div>
-`
-  }
+
+</div>`
+
+}
+
+function setKeyToEdit(key) {
+  $(`input[data-edit=${key}]`).click(function (){
+    $(`#edit-${key}`).removeClass("d-none");
+    $(`#text-post-${key}`).addClass("d-none");
+    $(`#save-button-${key}`).removeClass("d-none");
+    $(`#delete-button-${key}`).addClass("d-none");
+    $(`#edit-button-${key}`).addClass("d-none");
+
+    // document.getElementById(`edit-${key}`).className = "";
+    // document.getElementById(`text-post-${key}`).className = "edit-hidden";
+    // document.getElementById(`save-button-${key}`).className = "";
+    // document.getElementById(`delete-button-${key}`).className = "edit-hidden";
+    // document.getElementById(`edit-button-${key}`).className = "edit-hidden";
+   
+  })
+  $(`button[data-save=${key}]`).click(function (){
+    let newText = document.getElementById(`edit-${key}`).value;
+    document.getElementById(`text-post-${key}`).innerHTML = newText;
+
+    $(`#edit-${key}`).addClass("d-none");
+    $(`#text-post-${key}`).removeClass("d-none");
+    $(`#save-button-${key}`).addClass("d-none");
+    $(`#delete-button-${key}`).removeClass("d-none");
+    $(`#edit-button-${key}`).removeClass("d-none");
+
+
+    // document.getElementById(`edit-${key}`).className = "edit-hidden";
+    // document.getElementById(`text-post-${key}`).className = "";
+    // document.getElementById(`save-button-${key}`).className = "edit-hidden";
+    // document.getElementById(`delete-button-${key}`).className = "";
+    // document.getElementById(`edit-button-${key}`).className = "";
+
+    database.ref(`posts/${USER_ID}/${key}`).update({
+      post: newText
+    });   
+  })
+  
+}
+
+
+function setKeyToDelete(key) {
+  $(`input[data-key=${key}]`).click(function () {
+    let deletePost = document.getElementById("delete-modal");
+    
+    if(deletePost){
+      document.getElementById("delete-modal").addEventListener("click", function(){
+        $(`[data-div=${key}]`).remove();
+        $(".post-input").val("");
+  
+        database.ref(`posts/${USER_ID}/${key}`).remove();
+        database.ref(`comments/${key}`).remove();
+        $("#exampleModalCenter").modal('hide');
+      })
+
 
   function setKeyToEdit(key) {
     $(`input[data-edit=${key}]`).click(function() {
@@ -147,7 +215,7 @@ $(document).ready(function() {
       });
     })
 
-  }
+  
 
 
   function setKeyToDelete(key) {

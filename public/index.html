@@ -22,7 +22,21 @@
 </head>
 
 <body class="background--purple shadow-none">
-  <div class="container-fluid logo--round position-relative mt-4 rounded-circle text-center w-50">
+  
+    <div class="web-page 	d-none d-md-block">
+      <nav class="navbar navbar-expand-lg navbar-dark static-top nav-bg d-flex ">
+        <figure class="d-flex m-0 p-0 align-items-center">
+          <div class="cookie">
+            <img src="../img/cookie.png" class="w-100 p-2">
+          </div>
+        <a class="nav-bg" href="#">
+           Biscoiteras
+        </a>
+    </div>
+      
+
+
+  <div class="container-fluid d-block d-md-none  logo--round position-relative mt-4 rounded-circle text-center w-50">
     <div class="m-auto pt-3">
       <figure class="container">
         <img src="img/cookie.png" class="w-100">
@@ -32,10 +46,11 @@
       </div>
     </div>
   </div>
-  <div class="container">
+
+
+  <div class="container col-md-6">
     <form>
       <h3>Cadastro</h3>
-
       <div class="form-group">
         <input type="text" class="form-control form-group--light rounded-0 shadow-none" id="input-name" placeholder="Nome">
       </div>
@@ -64,7 +79,7 @@
       <button id="sign-in-fb-btn" class="btn btn-light">Entrar com Facebook <span
           class="fab fa-facebook-square"></span></button>
     </form>
-  </div>
+ 
 
 
   <script src="../scripts/user.js "></script>
