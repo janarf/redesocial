@@ -109,12 +109,6 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-<<<<<<< HEAD
-=======
-
-
-   
->>>>>>> bf36f39f3c8447f76507b8372d426292a33c73ec
     <div>
       <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key}>${likeCount}</span>&nbsp;&nbsp
       <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
