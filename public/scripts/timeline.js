@@ -103,7 +103,7 @@ $(document).ready(function() {
 
         ${content}
      
-        <input data-text-input="${key}" class="edit-hidden" value=${text} id="edit-${key}">
+        <input data-text-input="${key}" class="d-none" value=${text} id="edit-${key}">
 
         
         </div>
@@ -113,7 +113,7 @@ $(document).ready(function() {
     <div>
     <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span>${likeCount}</span>&nbsp;&nbsp
     <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}" > Salvar </button>
+    <button type="button" data-save="${key}" class="d-none btn-xs border-0 btn--green font-weight-bold rounded text-white" id="save-button-${key}" > Salvar </button>
 
   </div>
   <hr>
@@ -127,22 +127,35 @@ $(document).ready(function() {
 
 function setKeyToEdit(key) {
   $(`input[data-edit=${key}]`).click(function (){
-    document.getElementById(`edit-${key}`).className = "";
-    document.getElementById(`text-post-${key}`).className = "edit-hidden";
-    document.getElementById(`save-button-${key}`).className = "";
-    document.getElementById(`delete-button-${key}`).className = "edit-hidden";
-    document.getElementById(`edit-button-${key}`).className = "edit-hidden";
+    $(`#edit-${key}`).removeClass("d-none");
+    $(`#text-post-${key}`).addClass("d-none");
+    $(`#save-button-${key}`).removeClass("d-none");
+    $(`#delete-button-${key}`).addClass("d-none");
+    $(`#edit-button-${key}`).addClass("d-none");
+
+    // document.getElementById(`edit-${key}`).className = "";
+    // document.getElementById(`text-post-${key}`).className = "edit-hidden";
+    // document.getElementById(`save-button-${key}`).className = "";
+    // document.getElementById(`delete-button-${key}`).className = "edit-hidden";
+    // document.getElementById(`edit-button-${key}`).className = "edit-hidden";
    
   })
   $(`button[data-save=${key}]`).click(function (){
     let newText = document.getElementById(`edit-${key}`).value;
     document.getElementById(`text-post-${key}`).innerHTML = newText;
 
-    document.getElementById(`edit-${key}`).className = "edit-hidden";
-    document.getElementById(`text-post-${key}`).className = "";
-    document.getElementById(`save-button-${key}`).className = "edit-hidden";
-    document.getElementById(`delete-button-${key}`).className = "";
-    document.getElementById(`edit-button-${key}`).className = "";
+    $(`#edit-${key}`).addClass("d-none");
+    $(`#text-post-${key}`).removeClass("d-none");
+    $(`#save-button-${key}`).addClass("d-none");
+    $(`#delete-button-${key}`).removeClass("d-none");
+    $(`#edit-button-${key}`).removeClass("d-none");
+
+
+    // document.getElementById(`edit-${key}`).className = "edit-hidden";
+    // document.getElementById(`text-post-${key}`).className = "";
+    // document.getElementById(`save-button-${key}`).className = "edit-hidden";
+    // document.getElementById(`delete-button-${key}`).className = "";
+    // document.getElementById(`edit-button-${key}`).className = "";
 
     database.ref(`posts/${USER_ID}/${key}`).update({
       post: newText

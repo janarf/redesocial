@@ -5,6 +5,7 @@ green: #0CCA98
 light purple: #4D4365
 white: #e5e5e5 */
 
+
 .background--purple {
   background-color: #331940;
   color: #e5e5e5;
@@ -57,9 +58,6 @@ form {
   display: none;
 }
 
-/* .save-button {
-  display: none;
-} */
 
 .form-group--light,
 .form-group--light:hover,
@@ -95,6 +93,7 @@ form {
 .btn--icon {
   width: 70%;
 }
+
 
 .btn--comment {
   width: 30%;
@@ -139,24 +138,21 @@ form {
   height: 120px;
 }
 
-.body-login-web{
-  background-color: #d9b3ff;
-}
 
 .img-bisc-web{
   height: 420px;
 
 }
 
-.text-login-web{
+.nav-bg{
+  font-size: 30px;
+  background-color: #d9b3ff;
   color: #331940;
-  
 }
 
-.login-web{
-  justify-content: end;
-  width: 200px;
-}
+
+
+
 
 select,
 select:active,
