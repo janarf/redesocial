@@ -42,7 +42,7 @@ Após a realização dos testes iniciais do produto no HTML, foram identificadas
 
 ## Funcionalidades implementadas
  * Login com Firebase;
- * Validações: usuário repetido, e-mail válido;
+ * Validações: usuária repetida, e-mail válido;
  * Autenticação com o Google e e-mail;
  * Texto secreto no input de senha;
  * Mensagens de erro na validação;
@@ -56,7 +56,7 @@ Após a realização dos testes iniciais do produto no HTML, foram identificadas
  * Comentar e exibir comentários em posts;
  * Adicionar amigos à lista exibida na timeline;
  * Sugestões de amizade;
- * Busca poe e-mail de usuários;
+ * Busca por e-mail de usuárias;
  * Página de perfil
  * Editar foto do perfil;
  
