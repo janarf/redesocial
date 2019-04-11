@@ -108,9 +108,9 @@ $(document).ready(function() {
       </div>
     </div>
 <div class="p-2 pl-5">
-    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span class="text--gray">${likeCount}</span>&nbsp;&nbsp
-    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
-    <button type="button" data-save="${key}" class="edit-hidden" id="save-button-${key}"> Salvar </button>
+    <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key} class="text--gray">${likeCount}</span>&nbsp;&nbsp
+    <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weight= 25>&nbsp;&nbsp
+    <button type="button" data-save=${key} class =" edit-hidden btn-xs border-0 btn--green font-weight-bold rounded text-white " id="save-button-${key}"> Salvar </button>
 </div>
 
   <hr>
@@ -196,7 +196,7 @@ $(document).ready(function() {
     $(`input[data-like=${key}]`).click(function() {
       event.preventDefault();
       let likeNum = parseInt($(`input[data-like=${key}]`).val()) + 1;
-      $(`input[data-like=${key}]`).html(likeNum);
+      $(`span[data-like-span=${key}]`).html(likeNum);
       database.ref(`posts/${USER_ID}/${key}`).update({ likeCount: likeNum });
     });
   }
@@ -312,7 +312,7 @@ $(document).ready(function() {
     <div id="comment-area" class="text-right">
       <hr>
       <textarea data-comment=${key} class="form-control border-0  mb-0 w-100 bg-light" rows="1" placeholder="Dê um biscoito"></textarea>
-      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green rounded">Comentar</button>
+      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white">Comentar</button>
     </div>
     `)
       $(`button[data-submit=${key}]`).click(function() {
