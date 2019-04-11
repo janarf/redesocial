@@ -109,6 +109,12 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
+<<<<<<< HEAD
+=======
+
+
+   
+>>>>>>> bf36f39f3c8447f76507b8372d426292a33c73ec
     <div>
       <input type="image" data-like=${key} value=${likeCount} src="../img/cookie.ico" height=25 weight=25>&nbsp<span data-like-span=${key}>${likeCount}</span>&nbsp;&nbsp
       <input data-comment-btn="${key}" type="image" value=${comment} src="../img/icons/balloongreen.png" height=25 weigth= 25>&nbsp;&nbsp
@@ -361,7 +367,7 @@ function setKeyToDelete(key) {
     <div id="comment-area" class="text-right">
       <hr>
       <textarea data-comment=${key} class="form-control border-0  mb-0 w-100 bg-light" rows="1" placeholder="Dê um biscoito"></textarea>
-      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green rounded">Comentar</button>
+      <button type="button" data-submit=${key} class="btn-xs border-0 btn--green font-weight-bold rounded text-white">Comentar</button>
     </div>
     `)
       $(`button[data-submit=${key}]`).click(function() {
